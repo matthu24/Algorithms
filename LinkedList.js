@@ -85,3 +85,41 @@ LinkedList.prototype.remove = function(val) {
     }
   }
 }
+//reverse a SLL
+//in O(n) time
+//pass in the singly linked list
+const reverseSLL = (sll) => {
+  //if sll is 0 or 1 in length
+  if (!sll.head  || !sll.head.next) {
+    return sll
+  }
+  let nodes_array = [];
+  let current = sll.head
+  while (current) {
+    nodes_array.push(current);
+    current = current.next;
+  }
+  //nodes_array now contains every node in the sll
+  //now just make a new SLL and pop off from the array
+  let reversed = new LinkedList();
+  while (nodes_array.length != 0) {
+    //linked list push method takes a value
+    //pop from the nodes array returns a node object, so need to get the value
+    reversed.push(nodes_array.pop().value)
+  }
+  return reversed;
+}
+
+
+
+
+//get kth node from the end of a sll
+const kNodeFromEnd = (sll,k) => {
+  if (k <= 0) {
+    return;
+  }
+
+  let node = sll.head;
+
+
+}
