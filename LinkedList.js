@@ -114,12 +114,32 @@ const reverseSLL = (sll) => {
 
 
 //get kth node from the end of a sll
+//if k === 0 we want the last node
 const kNodeFromEnd = (sll,k) => {
-  if (k <= 0) {
+  if (k < 0) {
     return;
   }
 
-  let node = sll.head;
+  let current = sll.head;
+  let length = 0;
+  while (current) {
+    length +=1;
+    current = current.next;
+  }
 
+  if (k >= length) {
+    return;
+  }
+
+  //index is the index of the desired node going forward not from the back
+  //head is index 1
+  let index = length - k;
+  current = sll.head;
+
+  while(index > 1){
+    current = current.next;
+    index-=1;
+  }
+  return current;
 
 }
