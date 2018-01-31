@@ -37,14 +37,49 @@ function reverseDLL(dll) {
     temp = current.next;
     current.next = current.previous;
     current.previous = temp;
-
     //assign the last node in list as head
     if (!temp) {
       dll.head = current;
     }
-
     //at the end of the list, the current will be null and break out of loop
     current = temp;
   }
   return dll;
+}
+
+
+//delete node from doubly linked list
+//input is value of node we want to delete
+DLinkedList.prototype.remove = function(val){
+  let current = this.head;
+  let previous;
+  //remove the head
+  if (val === current.value) {
+    this.head = current.next;
+    //need to check if after removing the head there is anything else in the list
+    if(this.head) this.head.previous = null;
+    return;
+  }else {
+    //traverse the list
+    previous = current;
+    current = current.next;
+    while (current) {
+      //make sure current is not the last node 
+      if (current.value === val && current.next) {
+        let next = current.next
+        previous.next = next;
+        next.previous = previous;
+        return;
+      }
+      current = current.next
+      previous = previous.next
+    }
+    //account for the last node
+    //if we reach this point, we are at the last node
+    if (previous.value === val ) {
+      previous.previous.next = null;
+      return;
+    }
+    return;
+  }
 }
