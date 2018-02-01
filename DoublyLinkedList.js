@@ -64,7 +64,7 @@ DLinkedList.prototype.remove = function(val){
     previous = current;
     current = current.next;
     while (current) {
-      //make sure current is not the last node 
+      //make sure current is not the last node
       if (current.value === val && current.next) {
         let next = current.next
         previous.next = next;
@@ -82,4 +82,13 @@ DLinkedList.prototype.remove = function(val){
     }
     return;
   }
+}
+
+
+//find the middle of a doubly linked list
+//two pointers: one pointer moves two nodes, the other pointer moves one node
+//when the double jumper pointer hits null, the single jumper pointer will be at the middle
+//have to account for odd and even numbered node lists
+function middle(dll){
+  let start =
 }
