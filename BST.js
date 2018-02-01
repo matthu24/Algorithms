@@ -1,3 +1,7 @@
+//most optimized data structure
+//find insert and delete are all log(n) time complexity!
+
+
 function Node(val){
   this.value = val;
   this.left = null;
@@ -11,7 +15,7 @@ function BST() {
 
 //1. if root node doesn't exist, then push onto root
 //2. make a new node, as well as a current variable that points to the current node
-//3. traverse tree 
+//3. traverse tree
 BST.prototype.push = function(val){
   let newNode = new Node(val);
   if (!this.root) {
@@ -39,4 +43,22 @@ BST.prototype.push = function(val){
       }
     }
   }
+}
+
+// return the node with the same val
+BST.prototype.find = function(val){
+  let current = this.root;
+
+  while (current) {
+    if (val === current.value) {
+      return current;
+    }
+    //go left, getting rid of everything on the right
+    if (val < current.value) {
+      current = current.left;
+    }else{
+      current = current.right;
+    }
+  }
+  return;
 }
