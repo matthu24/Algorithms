@@ -62,3 +62,29 @@ BST.prototype.find = function(val){
   }
   return;
 }
+
+
+//return maximum node
+
+BST.prototype.maximum = function(){
+  let current = this.root;
+  while (current.right) {
+    current = current.right
+  }
+  return current;
+}
+
+//find depth of bst
+//depth is defined as the longest path from root to any leaf
+//input the root of the tree for node
+function depth(node){
+  //basecase
+  if (!node) {
+    return 0;
+  }
+  
+  let leftHeight = depth(node.left);
+  let rightHeight = depth(node.right);
+  //adding one is a counter for each iteration
+  return Math.max(leftHeight,rightHeight) + 1;
+}
