@@ -320,3 +320,47 @@ function brackets(string){
   }
   return true;
 }
+
+
+
+
+
+//make a queue out of two stacks
+
+function Stack(){
+  this.stack = [];
+}
+
+Stack.prototype.push = function(val){
+  return this.stack.push(val)
+}
+
+Stack.prototype.pop = function(){
+   return this.stack.pop();
+}
+
+//two queues to make a stack
+//queues dequeue from the beginning of the line
+//
+
+function queue(){
+  this.inStack = new Stack();
+  this.outStack = new Stack();
+}
+
+queue.prototype.enqueue = function(val){
+  this.inStack.push(val);
+}
+
+queue.prototype.dequeue = function(){
+  let length = this.inStack.stack.length
+  for(let i = 0;i < length;i++){
+    this.outStack.push(this.inStack.pop())
+  }
+  this.outStack.pop()
+
+  //switch in stack and out stack after dequeueing
+  let temp = this.inStack.stack;
+  this.inStack.stack = this.outStack.stack;
+  this.outStack.stack = temp;
+}
