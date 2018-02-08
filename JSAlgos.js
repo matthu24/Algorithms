@@ -207,3 +207,116 @@ function leftRotation(arr,n){
   let begin = arr.slice(0,n);
   return start.concat(begin)
 }
+
+
+
+//setup a counter hash for both
+//loop through each counter hash, find the respective key in the other hash, and add the difference to the counter
+function anagrams(a,b){
+  let count = 0;
+  let hash1 = {};
+  let hash2 = {};
+  for(let i = 0; i < a.length; i++){
+    if(hash1[a[i]]){
+      hash1[a[i]] += 1;
+    }else{
+      hash1[a[i]] = 1;
+    }
+  }
+
+  for(let j = 0; j < b.length; j++){
+    if(hash2[b[j]]){
+      hash2[b[j]] += 1;
+    }else{
+      hash2[b[j]] = 1;
+    }
+  }
+
+  //find extra letters in a
+  for(let key in hash1){
+    if(hash2[key]){
+      count+= Math.abs(hash1[key] - hash2[key])
+    }else{
+      count+=hash1[key]
+    }
+  }
+
+  for(let key2 in hash2){
+    if(!hash1[key2]){
+      count+=hash2[key2]
+    }
+  }
+  return count
+
+}
+
+
+
+//ransom note
+//are the choices enough for me to make a target?
+//both inputs are strings
+
+function ransom(choices,target){
+  let choicesHash = {}
+  let targetHash = {}
+
+  choices.split(" ").forEach(word => {
+    if(choicesHash[word]){
+      choicesHash[word] += 1;
+    }else{
+      choicesHash[word] = 1;
+    }
+  })
+
+  target.split(" ").forEach(word => {
+    if(targetHash[word]){
+      targetHash[word] += 1;
+    }else{
+      targetHash[word] = 1;
+    }
+  })
+
+  for(let key in targetHash){
+    if(!choicesHash[key]){
+      return false;
+    }else if(choicesHash[key] < targetHash[key]){
+      return false;
+    }
+  }
+  return true;
+}
+
+
+
+// {[()]} yes
+// {[(])} no
+// {{[[(())]]}} yes
+
+//matching bracket must be an odd number of spaces away
+
+function brackets(string){
+  let midpoint = string.length/2 //right midpoint
+  let bracket;
+  let counterbracket;
+  let distance; //from midpoint
+  let endpoint;
+  for(let i=0;i < midpoint;i++){
+    bracket = string[i];
+    if(bracket === '{'){
+      counterbracket = '}';
+    }else if(bracket === '['){
+      counterbracket = ']';
+    }else if(bracket === '('){
+      counterbracket = ')';
+    }else{
+      break
+    }
+  distance = midpoint - i;
+  endpoint = midpoint + distance -1 ;
+  if(string[endpoint] !== counterbracket){
+    return false;
+  }
+
+  }
+  return true;
+}
