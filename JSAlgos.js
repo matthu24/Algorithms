@@ -364,3 +364,21 @@ queue.prototype.dequeue = function(){
   this.inStack.stack = this.outStack.stack;
   this.outStack.stack = temp;
 }
+
+
+//arr is sorted
+//find middle index in arr and compare to the target
+//if target is larger, get rid of the whole first half of the array and recurse, making sure to add the middle index
+//if target is less, get rid of the second half and recurse
+function bs(arr,target){
+
+  let mid = Math.floor(arr.length/2);
+  if(arr[mid] === target){
+    return mid;
+  }
+  if(arr[mid] > target){
+    return bs(arr.slice(0,mid),target);
+  }else{
+    return bs(arr.slice(mid,arr.length),target) + mid
+  }
+}
