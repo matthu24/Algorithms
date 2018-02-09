@@ -382,3 +382,47 @@ function bs(arr,target){
     return bs(arr.slice(mid,arr.length),target) + mid
   }
 }
+
+
+
+function bubbleSort(arr){
+  let sorted = false;
+  while(sorted === false){
+    sorted = true;
+    for(let i = 0; i < arr.length-1; i++){
+      if(arr[i] > arr[i+1]){
+        //switch
+        //also make sorted equal false
+        sorted = false;
+        let temp = arr[i];
+        arr[i] = arr[i+1];
+        arr[i+1] = temp;
+      }
+    }
+  }
+  return arr;
+}
+
+
+//return the row of depth n
+// 1
+// 11
+// 121
+// 1331
+// 14641
+function pascal(n){
+  if(n === 1){
+    return [1]
+  }else if(n === 2){
+    return [1,1]
+  }
+  let result = [1]
+  //assume n = 3
+  let prev = pascal(n-1); //will return [1,1]
+  for(let i = 0;i < prev.length-1;i++){
+    result.push(prev[i] + prev[i+1])
+  }
+  result.push(1)
+  return result
+
+}
