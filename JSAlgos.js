@@ -426,3 +426,30 @@ function pascal(n){
   return result
 
 }
+
+
+
+//most common string in array
+function mostCommon(arr){
+  //arr is array of strings
+  //build a counter hash
+  //loop through the hash and find the best
+  let counter = {}
+  arr.forEach(word => {
+    if(counter[word]){
+      counter[word] += 1;
+    }else{
+      counter[word] = 1;
+    }
+  })
+  //counter hash is finished
+  let result = arr[0];
+  let mostCommonFrequency = 1
+  for(let key in counter){
+    if(counter[key] > mostCommonFrequency){
+      mostCommonFrequency = counter[key];
+      result = key;
+    }
+  }
+  return result;
+}
