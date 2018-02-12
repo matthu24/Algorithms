@@ -453,3 +453,71 @@ function mostCommon(arr){
   }
   return result;
 }
+
+
+//bind apply an call
+//prototypal inheritance
+//map/reduce/filter/reduce/sort/etc
+//create buttons inside a loop that would alert their index when clicked
+//insert method for a binary search tree
+//if it was a binary search tree
+//
+
+Array.prototype.myMap = function(cb){
+  let result = [];
+  this.forEach(el => {
+    result.push(cb(el));
+  })
+  return result;
+}
+
+var array1 = [1, 4, 9, 16];
+
+array1.myMap(el => el + 1)
+//[2,5,10,17]
+
+
+Array.prototype.myFilter = function(cb){
+  let result = [];
+  this.forEach(el => {
+    if (cb(el)) {
+      result.push(el)
+    }
+  })
+  return result;
+}
+
+var array1 = [1, 4, 9, 16];
+
+array1.myFilter(el => el > 4)
+//[2,5,10,17]
+
+
+Array.prototype.myReduce = function(cb){
+  let accum = this[0];
+  for(let i = 1; i < this.length; i++){
+    //calling the callback and passing in accum and current el
+    accum = cb(accum,this[i])
+  }
+  return accum;
+}
+
+a = [3,2,3]
+a.myReduce((accum,el) => accum + el)
+
+
+//create buttons inside a loop that would alert their index when clicked
+//  window.onload = function() {
+    //     for(var i = 1; i < 21; i++) {
+    //         var button = document.createElement("button");
+    //         var text = document.createTextNode(i);
+    //         button.appendChild(text);
+    //         button.addEventListener("click", function() {
+    //            // get the clicked on button with this
+    //            alert(this.firstChild.nodeValue);
+    //         });
+    //         document.body.appendChild(button);
+    //     }
+    // }
+//find bst
+//is binary search tree?
