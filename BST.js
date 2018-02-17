@@ -82,9 +82,49 @@ function depth(node){
   if (!node) {
     return 0;
   }
-  
+
   let leftHeight = depth(node.left);
   let rightHeight = depth(node.right);
   //adding one is a counter for each iteration
   return Math.max(leftHeight,rightHeight) + 1;
+}
+
+
+
+function isBST(node){
+   //basecase, if node.left && node.right both don't exist, return true
+  //for each node, check left and right and compare to node,
+  //if they are not smaller and bigger respectively, return false
+   //iterate through each node recursively
+
+  if(!node.left && !node.right){
+    return true;
+  }
+  if(node.left && node.left.value > node.value){
+    return false;
+  }else if(node.right && node.right.value < node.value){
+    return false;
+  }
+  if(node.left){
+    isBST(node.left)
+  }
+  if(node.right){
+    isBST(node.right)
+  }
+  return true;
+}
+
+//given two nodes, find the lowest common ancestor
+function lowestCommonAncestor(node1,node2,root){
+  //return common Ancestor if node1 is greater AND node2 is less //OR node1 is less AND node2 is greater
+  //if not, keep going down tree, if both node 1 and node 2 are greater than or both are less than the common ancestor
+  let commonAncestor = root;
+  while((commonAncestor.value > node1.value && commonAncestor.value > node2.value) || (commonAncestor.value < node1.value && commonAncestor.value < node2.value ) ){
+    if(commonAncestor.value > node1.value){
+      commonAncestor = commonAncestor.left;
+    }else{
+      commonAncestor = commonAncestor.right;
+    }
+  }
+  return commonAncestor;
 }
