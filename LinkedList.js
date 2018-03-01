@@ -143,3 +143,31 @@ const kNodeFromEnd = (sll,k) => {
   return current;
 
 }
+
+//determine if sll has a loop
+//have two pointers, one that jumps one and the other that jumps two and see if they ever overlap
+LinkedList.prototype.loop = function(){
+  let current = this.head;
+  while(current.next){
+    current = current.next
+  }
+  current.next = this.head
+}
+
+LinkedList.prototype.isLoop = function(){
+  let pointer_one= this.head;
+  let pointer_two = this.head;
+  while(pointer_two){
+    pointer_one = pointer_one.next
+    if(pointer_two.next){
+       pointer_two = pointer_two.next.next
+    }else{
+      return false
+    }
+
+    if(pointer_one === pointer_two ){
+      return true
+    }
+  }
+  return false
+}

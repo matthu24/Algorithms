@@ -169,6 +169,22 @@ function twoSum(arr,target){
   return result;
 }
 
+const twoSum = (arr,target) => {
+  //loop thru array and add to a values object, where the key is the arr element and the value is the arr element
+  let values = {};
+  for(let i = 0;i < arr.length; i++){
+    values[arr[i]] = i;
+  }
+  for(let i = 0;i < arr.length; i++){
+    let desired = target - arr[i]
+   if(values[desired] && values[desired] !== i){
+     return [i,values[desired]]
+   }
+  }
+  return null;
+}
+
+
 
 
 function topSum(arr){
@@ -521,3 +537,267 @@ a.myReduce((accum,el) => accum + el)
     // }
 //find bst
 //is binary search tree?
+
+
+
+//given sorted array, do this in O(1) extra space
+//loop through array, for each element, search the entire array up to that point
+//if there is a repeat remove that element, and bring the counter back one, since we are deleting while iterating
+function removeDuplicates(arr){
+  //array.splice(index,number of elements you want to remove)
+  for (var i = 0; i < arr.length; i++) {
+    let duplicate = false;
+    for(var j = 0; j < i; j++){
+      if(arr[i] === arr[j]){
+        duplicate = true;
+      }
+    }
+    if (duplicate) {
+      arr.splice(i,1);
+      i -=1
+    }
+
+  }
+  return arr
+}
+
+
+function stock(arr){
+  //[4,6,3,6,4] returns [2,3]
+  //loop thru each element in array, for each element have a nested array that searches for selling dates, keep track of largest profit and the indices
+  let result = [0,1];
+  let profit = arr[1]-arr[0];
+  for(let i=0; i<arr.length; i++){
+    for(let j=i+1;j < arr.length;j++){
+      let newProfit = arr[j] - arr[i];
+      if(newProfit > profit){
+        profit = newProfit;
+        result = [i,j]
+      }
+    }
+  }
+  return result;
+}
+
+
+
+//Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2, 2].
+
+const intersection = (arr1,arr2) => {
+  let frequency1 = {};
+  let frequency2 = {};
+  let result = [];
+
+  arr1.forEach(el =>{
+    if(frequency1[el]){
+      frequency1[el] += 1
+    }else{
+      frequency1[el] = 1
+    }
+  })
+
+  arr2.forEach(el => {
+    if(frequency2[el]){
+      frequency2[el] += 1;
+    }else{
+      frequency2[el] = 1;
+    }
+  })
+
+  //iterate through frequency1 and look up each key in frequency2
+  //if it exists
+
+  for(let key in frequency1){
+    if(frequency2[key]){
+      let value1 = frequency1[key];
+      let value2 = frequency2[key];
+      let difference = Math.abs(value2-value1);
+      let intersection = Math.max(value1,value2)-difference;
+      for(let i = 0;i < intersection; i++){
+        result.push(parseInt(key))
+      }
+    }
+  }
+  return result
+
+}
+
+
+
+const transpose = arr => {
+  //iterate through each element, above the central diagonal of the matrix, and switcch with the element that has the opposite row, col ccoordinates
+
+  for(let row = 0; row < arr.length; row++){
+    let col = row;
+    while(col < arr.length){
+      let temp = arr[row][col];
+      arr[row][col] = arr[col][row];
+      arr[col][row] = temp;
+      col+=1
+    }
+  }
+  return arr
+}
+
+
+
+//must be in place
+function remove_zeroes(arr){
+  let counter = 0
+  for(let i = 0;i < arr.length;i++){
+    //only make as many iterations as there are arr elements
+    if(counter >= arr.length-1){
+      return arr;
+    }
+
+    //if hit a zero, delete and shift everything, decrement index
+    if(arr[i] === 0){
+      arr.splice(i,1);
+      arr[arr.length] = 0
+      i -= 1
+    }
+
+    //increment counter
+    counter+=1
+  }
+
+  return arr
+}
+
+
+//return true if no repeats
+
+const noRepeats = arr => {
+  let seen = {};
+  for(let i = 0;i < arr.length; i++){
+    if(seen[arr[i]]){
+      return false;
+    }else{
+      seen[arr[i]] = true;
+    }
+  }
+  return true;
+}
+
+
+// Given an array of integers, every element appears twice except for one. Find that single one.
+
+const single = arr => {
+  let counter = {};
+  arr.forEach(el => {
+    if(counter[el]){
+      counter[el] += 1;
+    }else{
+      counter[el] = 1;
+    }
+  });
+  for(let key in counter){
+    if(counter[key] === 1){
+      return parseInt(key)
+    }
+  }
+}
+
+
+
+
+
+
+//3 sum to zero
+// For example, given array S = [-1, 0, 1, 2, -1, -4],
+
+// A solution set is:
+// [
+//   [-1, 0, 1],
+//   [-1, -1, 2]
+// ]
+
+//
+
+
+ //loop thru arr, for each element, do two sum
+const ThreeSum = arr => {
+  let result = [];
+  for(let i=0;i < arr.length;i++){
+    let target = -arr[i];
+    let arrayCopy = arr.slice(0);
+    arrayCopy.splice(i,1);
+    let twoSumResult = twoSum(arrayCopy,target);
+    if(twoSumResult){
+      result.push([arr[i]].concat(twoSumResult));
+    }
+  }
+  return removeRepeats(result);
+
+}
+
+
+const twoSum = (arr,target) => {
+  //loop thru array and add to a values object, where the key is the arr element and the value is the arr element
+  let values = {};
+  for(let i = 0;i < arr.length; i++){
+    values[arr[i]] = i;
+  }
+  for(let i = 0;i < arr.length; i++){
+    let desired = target - arr[i]
+   if(values[desired] && values[desired] !== i){
+     return [arr[i],arr[values[desired]]]
+   }
+  }
+  return null;
+}
+
+
+const removeRepeats = (arr) => {
+  let hash = {}
+  let result = [];
+  for(let i=0;i < arr.length;i++){
+    hash[arr[i].sort()] = true;
+  }
+  for(let key in hash){
+    key = key.split(',');
+
+    result.push(key);
+  }
+  result.forEach(sub => {
+    for(let i = 0;i < sub.length; i++){
+      sub[i] = parseInt(sub[i])
+    }
+  })
+  return result;
+
+}
+
+
+
+// Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
+
+const matrix = (arr) => {
+  //iterate thru arr, locate all zeros and store in an a separate array
+  //iterate thru separate array and set arr rows/cols to zero for each location
+  let locations = [];
+  for(let row=0;row < arr.length;row++){
+    for(let col=0;col< arr[row].length;col++){
+      if(arr[row][col] === 0){
+        locations.push([row,col])
+      }
+    }
+  }
+
+  let row0,col0;
+  //locations array filled
+  locations.forEach(location => {
+    row0 = location[0];
+    col0 = location[1];
+    for(let idx = 0;idx < arr[row0].length;idx++){
+      arr[row0][idx] = 0;
+    }
+
+    for(let idx2 = 0; idx2 < arr.length;idx2++){
+      arr[idx2][col0] = 0;
+    }
+
+  })
+  return arr;
+
+}
