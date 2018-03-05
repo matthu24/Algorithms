@@ -209,4 +209,35 @@ console.log(mergeRanges(meetings));
 
 
 
-//do it again but by sorting the meetings and trying to merge with the previous one 
+//do it again but by sorting the meetings and trying to merge with the previous one
+function mergeRanges(meetings) {
+
+  // create a deep copy of the meetings array
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Deep_Clone
+  var meetingsCopy = JSON.parse(JSON.stringify(meetings));
+  // sort by start time
+  var sortedMeetings = meetingsCopy.slice().sort(function(a, b) {
+      return a.startTime > b.startTime ? 1 : -1;
+  });
+
+  // initialize mergedMeetings with the earliest meeting
+  var mergedMeetings = [sortedMeetings[0]];
+
+  for (var i = 1; i < sortedMeetings.length; i++) {
+
+      var currentMeeting    = sortedMeetings[i];
+      var lastMergedMeeting = mergedMeetings[mergedMeetings.length - 1];
+
+      // if the current meeting overlaps with the last merged meeting, use the
+      // later end time of the two
+      if (currentMeeting.startTime <= lastMergedMeeting.endTime) {
+          lastMergedMeeting.endTime = Math.max(lastMergedMeeting.endTime, currentMeeting.endTime);
+
+      // add the current meeting since it doesn't overlap
+      } else {
+          mergedMeetings.push(currentMeeting);
+      }
+  }
+
+  return mergedMeetings;
+}
