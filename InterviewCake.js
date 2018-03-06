@@ -243,7 +243,7 @@ function mergeRanges(meetings) {
 }
 
 
-function rectangleIntersect(rect1,rect2) {
+function myFunction(rect1,rect2) {
     // write the body of your function here
     let leftX = Math.max(rect1.leftX, rect2.leftX);
     let bottomY = Math.max(rect1.bottomY, rect2.bottomY);
@@ -256,9 +256,13 @@ function rectangleIntersect(rect1,rect2) {
     let topY1 = rect1.bottomY + rect1.height;
     let topY2 = rect2.bottomY + rect2.height;
     height = Math.min(topY1,topY2)- bottomY;
-    return {leftX: leftX, bottomY: bottomY, width: width, height: height};
+    if(width > 0 && height > 0){
+            return {leftX: leftX, bottomY: bottomY, width: width, height: height};
+    }else{
+        return 'no intersection'
+    }
 }
 
 // run your function through some test cases here
 // remember: debugging is half the battle!
-console.log(rectangleIntersect({leftX: 1, bottomY: 1,width: 6, height:3},{leftX: 5, bottomY: 2,width: 3, height:6}));
+console.log(myFunction({leftX: 1, bottomY: 1,width: 6, height:3},{leftX: 7, bottomY: 2,width: 2, height:1}));
