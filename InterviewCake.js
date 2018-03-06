@@ -241,3 +241,24 @@ function mergeRanges(meetings) {
 
   return mergedMeetings;
 }
+
+
+function rectangleIntersect(rect1,rect2) {
+    // write the body of your function here
+    let leftX = Math.max(rect1.leftX, rect2.leftX);
+    let bottomY = Math.max(rect1.bottomY, rect2.bottomY);
+    let width;
+    let rightX1 = rect1.leftX + rect1.width;
+    let rightX2 = rect2.leftX + rect2.width;
+    width = Math.min(rightX1,rightX2)- leftX;
+
+    let height;
+    let topY1 = rect1.bottomY + rect1.height;
+    let topY2 = rect2.bottomY + rect2.height;
+    height = Math.min(topY1,topY2)- bottomY;
+    return {leftX: leftX, bottomY: bottomY, width: width, height: height};
+}
+
+// run your function through some test cases here
+// remember: debugging is half the battle!
+console.log(rectangleIntersect({leftX: 1, bottomY: 1,width: 6, height:3},{leftX: 5, bottomY: 2,width: 3, height:6}));
