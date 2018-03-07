@@ -266,3 +266,110 @@ function myFunction(rect1,rect2) {
 // run your function through some test cases here
 // remember: debugging is half the battle!
 console.log(myFunction({leftX: 1, bottomY: 1,width: 6, height:3},{leftX: 7, bottomY: 2,width: 2, height:1}));
+
+
+
+//return indices not the max profit
+function stocks(arr){
+  let lowestVal = arr[0];
+  let sellDate;
+  let buyDate;
+  let lowestIdx = 0;
+  let maxProfit = arr[1] - arr[0];
+  for(let i=1;i < arr.length;i++){
+    let current = arr[i];
+
+    if(current-lowestVal > maxProfit){
+      maxProfit = current - lowestVal;
+      sellDate = i;
+      //re assign a new variable "buy" to the lowestIdx only if we change the profit
+      //then return buy, not the lowestIdx
+      buyDate = lowestIdx;
+    }
+    //we assign lowestVal after the comparison of max profit because we want to compare the lowestVal thus far,
+    //and not assign lowestVal before comparing current and lowestVal- they might be the same
+    if(current < lowestVal){
+      lowestVal = current;
+      lowestIdx = i;
+    }
+
+
+  }
+  return [buy,highestIdx];
+}
+
+
+
+//Optimize for space and time. Favor speeding up the getter methods getMax(), getMin(), getMean(), and getMode() over speeding up the insert() method.
+//get mode- greedy method: utilize a hashmap and save the variable maximum occurrences, which will update when necessary
+function tempTracker() {
+  this.minTemp = null;
+  this.maxTemp = null;
+  this.numTemps = 0;
+  this.mean = null;
+  this.mode = null;
+  this.maxOccurrences = 0;
+  this.tempArray = {};
+  //each index of tempArray represents a temperature
+  // for(let i=0;i <=110;i++){
+  //   this.tempArray.push(0);
+  // }
+}
+
+tempTracker.prototype.insert = function(temp){
+  if(!this.minTemp || temp < this.minTemp){
+    this.minTemp = temp;
+  }
+  if(!this.maxTemp || temp > this.maxTemp){
+    this.maxTemp = temp;
+  }
+  this.numTemps += 1;
+  if(!this.mean){
+    this.mean = temp;
+  }else{
+    this.mean = (this.mean * (this.numTemps-1) + temp)/this.numTemps;
+  }
+
+  if(!this.tempArray[temp]){
+    this.tempArray[temp] = 1;
+  }else{
+    this.tempArray[temp] += 1;
+  }
+
+  if(this.tempArray[temp] > this.maxOccurrences){
+    this.mode = temp;
+    this.maxOccurrences = this.tempArray[temp];
+  }
+
+
+}
+
+tempTracker.prototype.getMax = function(){
+  return this.maxTemp;
+}
+
+tempTracker.prototype.getMin = function(){
+  return this.minTemp;
+}
+
+tempTracker.prototype.getMean = function(){
+  return this.mean;
+}
+
+//O(n) getMode
+// tempTracker.prototype.getMode = function(){
+//   let highestFrequency = 0;
+//   for(let key in this.frequency){
+//     if(this.frequency[key] > highestFrequency){
+//       this.mode = parseInt(key);
+//       highestFrequency = this.frequency[key];
+//     }
+//   }
+//   return this.mode;
+// }
+
+
+//we can do better for getMode
+tempTracker.prototype.getMode = function(){
+  return this.mode;
+}
