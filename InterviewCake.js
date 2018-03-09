@@ -373,3 +373,98 @@ tempTracker.prototype.getMean = function(){
 tempTracker.prototype.getMode = function(){
   return this.mode;
 }
+
+
+
+
+
+
+
+//bst dfs
+
+function BinaryTreeNode(value) {
+  this.value = value;
+  this.left  = null;
+  this.right = null;
+}
+
+
+
+function dfsRecursive(node){
+if(!node.left && !node.right){
+  console.log(node.value)
+  return;
+}
+console.log(node.value);
+
+if(node.right){
+  dfsRecursive(node.right)
+}
+  if(node.left){
+  dfsRecursive(node.left)
+}
+}
+
+
+function dfs(node) {
+let result = []
+let nodes = []
+nodes.push(node);
+while(nodes.length){
+  let popped = nodes.pop();
+  result.push(popped.value);
+  if(popped.left){
+    nodes.push(popped.left);
+    // console.log(popped.left)
+  }
+  if(popped.right){
+    nodes.push(popped.right);
+    // console.log(popped.right);
+  }
+}
+
+console.log(result)
+
+
+}
+
+
+// A tree is "superbalanced" if the difference between the depths of any two leaf nodes ↴ is no greater than one.
+
+//do dfs,
+//track depths,
+//if run into a leaf, add depth,but only new depths to depths array
+//if there are more than two depths, return false || if there are two depths and the difference is more than two, return false
+
+function balanced(node){
+  let newDepths = [];
+  //nodes will keep track of the node and it's depth(we can track the depth of every node!)
+  let nodes = [];
+  nodes.push([node,0]);
+  while(nodes.length){
+    let popped = nodes.pop();
+    let current = popped[0];
+    let depth = popped[1];
+    if(!current.left && !current.right){
+      //it's a leaf
+      //add to newDepths if it's a new depth
+      if(newDepths.indexOf(depth) < 0){
+        newDepths.push(depth);
+      }
+      //check if tree is unbalanced 
+      if(newDepths.length > 2 || (newDepths.length === 2 && Math.abs(newDepths[0]-newDepths[1]) > 1)){
+        return false
+      }
+    }else{
+      //it's not a leaf, keep pushing to nodes
+      if(current.left){
+        nodes.push([current.left,depth + 1])
+      }
+      if(current.right){
+        nodes.push([current.right,depth + 1])
+
+      }
+    }
+  }
+  return true;
+}

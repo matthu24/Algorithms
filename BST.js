@@ -128,3 +128,54 @@ function lowestCommonAncestor(node1,node2,root){
   }
   return commonAncestor;
 }
+
+
+
+
+
+//binary search tree DFS
+function BinaryTreeNode(value) {
+  this.value = value;
+  this.left  = null;
+  this.right = null;
+}
+
+
+
+function dfsRecursive(node){
+if(!node.left && !node.right){
+  console.log(node.value)
+  return;
+}
+console.log(node.value);
+
+if(node.right){
+  dfsRecursive(node.right)
+}
+  if(node.left){
+  dfsRecursive(node.left)
+}
+}
+
+
+function dfs(node) {
+let result = []
+let nodes = []
+nodes.push(node);
+while(nodes.length){
+  let popped = nodes.pop();
+  result.push(popped.value);
+  if(popped.left){
+    nodes.push(popped.left);
+    // console.log(popped.left)
+  }
+  if(popped.right){
+    nodes.push(popped.right);
+    // console.log(popped.right);
+  }
+}
+
+console.log(result)
+
+
+}
