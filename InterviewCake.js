@@ -531,3 +531,40 @@ function isBinarySearchTree(root) {
   }
    return true;
 }
+
+
+
+//find second largest node in binary tree
+//keep going right, but remembering the node before it
+//when you can't go right anymore, return the node before it//this doesn't take into account that the max node could have children to the left
+//if max has children to left, find largest node starting from that left subtree
+
+function largest(node){
+  let current = node;
+  while(current){
+    if(!current.right){
+      return current
+    }
+    current = current.right;
+  }
+}
+
+function second(root){
+  let current = root;
+  //two scenarios for the max:
+  //1. it has no left subtree- return node above max
+  //2. it has a left subtree- return max in left subtree
+  while(current.right && current.right.right){
+    current = current.right;
+  }
+  //current is now the node right above the max
+  //let's check if max is 1. or 2. from above
+  if(current.right.left){
+    //if left subtree of max exists, find largest of the subtree
+    let maxsubtree = largest(current.right.left);
+    return maxsubtree.value
+  }else{
+    return current.value
+  }
+
+}
