@@ -405,7 +405,7 @@ if(node.right){
 }
 }
 
-
+//DFS USES A STACK (PUSH, POP)
 function dfs(node) {
 let result = []
 let nodes = []
@@ -422,17 +422,33 @@ while(nodes.length){
     // console.log(popped.right);
   }
 }
-
 console.log(result)
+}
 
-
+//BFS USES A QUEUE (PUSH, SHIFT)
+function bfs(node){
+  let result = []
+  let nodes = []
+  nodes.push(node);
+  while(nodes.length){
+    //gets the first in the array nodes
+    let shifted = nodes.shift();
+    result.push(shifted.value);
+    if(shifted.left){
+      nodes.push(shifted.left);
+    }
+    if(shifted.right){
+      nodes.push(shifted.right);
+    }
+  }
+  console.log(result)
 }
 
 
 // A tree is "superbalanced" if the difference between the depths of any two leaf nodes ↴ is no greater than one.
 
 //do dfs,
-//track depths,
+//track depths for each node you visit (ie. every subsequent node you push will add 1 to the depth, we are keeping track of a running depth for every node),
 //if run into a leaf, add depth,but only new depths to depths array
 //if there are more than two depths, return false || if there are two depths and the difference is more than two, return false
 
@@ -451,7 +467,7 @@ function balanced(node){
       if(newDepths.indexOf(depth) < 0){
         newDepths.push(depth);
       }
-      //check if tree is unbalanced 
+      //check if tree is unbalanced
       if(newDepths.length > 2 || (newDepths.length === 2 && Math.abs(newDepths[0]-newDepths[1]) > 1)){
         return false
       }
@@ -467,4 +483,51 @@ function balanced(node){
     }
   }
   return true;
+}
+
+
+
+function BinaryTreeNode(value) {
+    this.value = value;
+    this.left  = null;
+    this.right = null;
+}
+
+
+
+//is valid binary search tree:
+//do depth first search,
+//each node you push on to stack has a lower bound and a higher bound
+//keep track of the node, lower bound, and higher bound in a node bundle
+//lower bound is the greatest node the current node must be higher than
+//higher bound is the least node the current node must be less than
+
+//trick: each time you go left, you have a new higher bound but the lower bound stays, every time you go right, you have a new lower bound but the higher bound stays
+
+function isBinarySearchTree(root) {
+  let stack = [];
+  stack.push({node: root, lowerbound: -Infinity, upperbound:Infinity});
+  while(stack.length){
+    let nodeBundle= stack.pop();
+    let currentnode = nodeBundle.node;
+    let lowerbound = nodeBundle.lowerbound;
+    let upperbound = nodeBundle.upperbound;
+
+    //the check
+    if(currentnode.value < lowerbound || currentnode.value > upperbound){
+      return false;
+    }
+
+    //push left and right
+    if(currentnode.left){
+      //going left: new upperbound, lowerbound is still the same
+      stack.push({node:currentnode.left, lowerbound: lowerbound, upperbound: currentnode.value})
+    }
+    if(currentnode.right){
+      //going right: new lowerbound, upperbound is still the same
+      stack.push({node: currentnode.right,lowerbound: currentnode.value, upperbound:upperbound })
+    }
+
+  }
+   return true;
 }

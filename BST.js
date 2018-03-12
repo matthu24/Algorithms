@@ -90,7 +90,7 @@ function depth(node){
 }
 
 
-
+//this is not right!
 function isBST(node){
    //basecase, if node.left && node.right both don't exist, return true
   //for each node, check left and right and compare to node,
