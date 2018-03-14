@@ -801,3 +801,17 @@ const matrix = (arr) => {
   return arr;
 
 }
+
+
+
+//return a random number greater than n and less than 1000 that ends in 0
+
+//result % 10 should equal zero
+function rand(n){
+  let range = 1000 - n;
+  let result;
+  while(result % 10 !== 0 ){
+    result = Math.floor(Math.random()*range) + n
+  }
+  return result;
+}

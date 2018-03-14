@@ -566,5 +566,163 @@ function second(root){
   }else{
     return current.value
   }
+}
 
+
+//find mid point
+//compare midpoint of array to target and recursively call binary search again with half the array
+function binarySearch(array,target){
+  let midIndex = Math.floor(array.length/2);
+  //this doesn't work if we are adding midIndices
+  if(array.length === 1 && array[0] != target){
+    return 'not found'
+  }
+  if(array[midIndex] === target){
+    return midIndex
+  }else if(array[midIndex] > target){
+    //mutates array
+    let split = array.splice(0,midIndex)
+    return binarySearch(split,target)
+  }else if(array[midIndex] < target){
+    let split = array.splice(midIndex,array.length)
+    return binarySearch(split,target) + midIndex
+  }
+
+}
+
+
+//iterative bs
+//move floor and ceiling index accordingly
+function binarySearch(target, nums) {
+  // see if target appears in nums
+
+  // we think of floorIndex and ceilingIndex as "walls" around
+  // the possible positions of our target, so by -1 below we mean
+  // to start our wall "to the left" of the 0th index
+  // (we *don't* mean "the last index")
+  var floorIndex = -1;
+  var ceilingIndex = nums.length;
+
+  // if there isn't at least 1 index between floor and ceiling,
+  // we've run out of guesses and the number must not be present
+  while (floorIndex + 1 < ceilingIndex) {
+
+      // find the index ~halfway between the floor and ceiling
+      // we have to round down, to avoid getting a "half index"
+      var distance = ceilingIndex - floorIndex;
+      var halfDistance = Math.floor(distance / 2);
+      var guessIndex = floorIndex + halfDistance;
+
+      var guessValue = nums[guessIndex];
+
+      //check mid index
+      if (guessValue === target) {
+          return true;
+      }
+
+      if (guessValue > target) {
+
+          // target is to the left, so move ceiling to the left
+          ceilingIndex = guessIndex;
+
+      } else {
+
+          // target is to the right, so move floor to the right
+          floorIndex = guessIndex;
+      }
+  }
+//if we haven't found it yet, return false
+  return false;
+}
+
+
+
+
+function rotation(array){
+  //use binary search
+  //find middle index of array
+  //take first letter of that element
+  //look to the left and to the right
+  //base case: if element letter code is less than its left then return the index, or is greater than its right then return the right index
+  //if none of the above: if the element letter code is greater than the first item in the array, get rid of the first half (remember to add the middle index ), if the element letter is less than the first item in the array, get rid of second half and recurse
+  let midIndex = Math.floor(array.length/2);
+  let middleCode = array[midIndex][0].charCodeAt();
+  let leftCode = array[midIndex-1][0].charCodeAt();
+  let rightCode = array[midIndex+1][0].charCodeAt();
+  if(middleCode < leftCode){
+    return midIndex
+  }else if(middleCode > rightCode){
+    return midIndex + 1;
+  }
+
+  if(middleCode < array[0][0].charCodeAt()){
+    let firstHalf = array.splice(0,midIndex)
+    return rotation(firstHalf)
+  }else{
+    let secondHalf = array.splice(midIndex,array.length);
+    return rotation(secondHalf)
+  }
+
+}
+
+
+
+//called in flight entertainment on interview cake site
+function twoSum(array,target){
+  //array of integers
+  let integers = {}
+  array.forEach(integer => {
+    if(integers[integer]){
+      integers[integer] += 1;
+    }else{
+      integers[integer] = 1;
+    }
+  })
+
+
+  for(let i=0;i < array.length;i++){
+    let desired = target - array[i]
+    //second conditional checks identical movie lengths of two separate movies
+    if(integers[desired] && (desired !== array[i] || integers[desired] > 1)){
+      return true;
+    }
+  }
+  return false;
+}
+
+//intervew cake solution: does it in O(n) instead of 2n
+function canTwoMoviesFillFlight(movieLengths, flightLength) {
+
+    // movie lengths we've seen so far
+    var movieLengthsSeen = new Set();
+
+    //check for match first, then add movie length to hash if it's not there
+    //do it all in one go
+    for (var i = 0; i < movieLengths.length; i++) {
+        var firstMovieLength = movieLengths[i];
+
+        var matchingSecondMovieLength = flightLength - firstMovieLength;
+        if (movieLengthsSeen.has(matchingSecondMovieLength)) {
+            return true;
+        }
+
+        movieLengthsSeen.add(firstMovieLength);
+    }
+
+    // we never found a match, so return false
+    return false;
+}
+
+
+
+
+function fib(n){
+  //return the nth number
+  //1,1,2,3,5,8
+  if(n === 1){
+    return 1;
+  }else if(n === 2){
+    return 1;
+  }
+  return fib(n-2) + fib(n-1)
 }
