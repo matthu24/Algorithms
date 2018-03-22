@@ -815,3 +815,44 @@ function rand(n){
   }
   return result;
 }
+
+
+
+const mergeSort = arr => {
+  //basecase: return arr if array is length one
+  if(arr.length === 0){
+    return [];
+  }else if(arr.length ===1){
+    return arr;
+  }
+
+  let mid = Math.floor(arr.length/2);
+  //slice is nonmutating and the second argument is the end index noninclusive 
+  //split the arr in half
+  let left = arr.slice(0,mid);
+  let right = arr.slice(mid,arr.length);
+
+
+
+  //call merge on mergeSort(left) and mergeSort(right)
+  return merge(mergeSort(left),mergeSort(right))
+}
+
+//merge two sorted arrays
+const merge = (arr1,arr2) => {
+  //both arrays are already sorted
+  let result = [];
+  //until one array is empty, compare the first indices of arr1 and arr2, and shift off the smaller of the two
+  while(arr1.length !== 0 && arr2.length !== 0){
+    if(arr1[0] > arr2[0]){
+      result.push(arr2.shift());
+    }else{
+      result.push(arr1.shift());
+    }
+  }
+  //into a results array
+  result = result.concat(arr2);
+  result = result.concat(arr1);
+  return result;
+  //return result array
+}

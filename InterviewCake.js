@@ -726,3 +726,104 @@ function fib(n){
   }
   return fib(n-2) + fib(n-1)
 }
+
+
+//O(1) space solution (recursive has a big call stack which is bad for space)
+
+function fib(n) {
+
+  // edge cases:
+  if (n < 0) {
+      throw new Error('Index was negative. No such thing as a negative index in a series.');
+  } else if (n === 0 || n === 1) {
+      return n;
+  }
+
+  // we'll be building the fibonacci series from the bottom up
+  // so we'll need to track the previous 2 numbers at each step
+  var prevPrev = 0;  // 0th fibonacci
+  var prev = 1;      // 1st fibonacci
+  var current;       // Declare current
+
+  for (var i = 1; i < n; i++) {
+
+      // Iteration 1: current = 2nd fibonacci
+      // Iteration 2: current = 3rd fibonacci
+      // Iteration 3: current = 4th fibonacci
+      // To get nth fibonacci ... do n-1 iterations.
+      current = prev + prevPrev;
+      prevPrev = prev;
+      prev = current;
+  }
+
+  return current;
+}
+
+
+
+
+
+
+
+//what will logIt print?
+var text = 'outside';
+function logIt(){
+  console.log(text);
+  var text = 'inside';
+};
+logIt();
+
+//undefined, because the function creates a new scope
+//when we declared and assigned text after the console log, the text variable
+// was hoisted to the top of the current scope or the logIt function
+//so the above code is really the same as:
+var text = 'outside';
+function logIt(){
+  var text;
+  console.log(text);
+  var text = 'inside';
+};
+logIt();
+
+//if we hadn't declared and assigned text in the function to 'inside'
+//console.log would output 'outside' because it function would make  aclosure
+
+
+
+
+
+// Delete a node from a singly-linked list, ↴ given only a variable pointing to that node.
+//
+// The input could, for example, be the variable b below:
+
+function LinkedListNode(value) {
+    this.value = value;
+    this.next = null;
+}
+
+var a = new LinkedListNode('A');
+var b = new LinkedListNode('B');
+var c = new LinkedListNode('C');
+
+a.next = b;
+b.next = c;
+
+// deleteNode(b);
+
+//We only have access to the node we want to delete, also we don't have access to previous node and we don't know where the
+//head is
+
+function remove(node){
+  //we only have access to node.value and node.next
+  //modify current node to be the exact same as node.next
+  if(node.next){
+    let next = node.next;
+    node.value = next.value;
+    node.next = next.next;
+  }else{
+      //what if we want to delete the last node
+      node.value = null;
+
+  }
+
+}
