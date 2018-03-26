@@ -827,3 +827,159 @@ function remove(node){
   }
 
 }
+
+
+
+//implement a maxStack class that has a getMax() method that returns the largest el in the stack
+//need to modify push and pop to keep track of the max
+//hint: need to use a stack to keep track of each new max element
+
+function Stack() {
+    // initialize an empty array
+    this.items = [];
+}
+
+// push a new item to the last index
+Stack.prototype.push = function(item) {
+    this.items.push(item);
+};
+
+// remove the last item
+Stack.prototype.pop = function() {
+
+    // if the stack is empty, return null
+    // (it would also be reasonable to throw an exception)
+    if (!this.items.length) {
+        return null;
+    }
+    return this.items.pop();
+};
+
+// see what the last item is
+Stack.prototype.peek = function() {
+    if (!this.items.length) {
+        return null;
+    }
+    return this.items[this.items.length -1];
+};
+
+function maxStack(){
+  this.stack = new Stack();
+  //keep track of all the new maxes, even the old ones
+  //the current max will always live at the end of this.maxes stack
+  this.maxes = new Stack();
+}
+
+maxStack.prototype.getMax = function(){
+  return this.maxes.peek()
+}
+
+
+maxStack.prototype.push = function(item){
+
+  if(this.maxes.length === 0 || item > this.maxes.peek()){
+    //update this.maxes if we find a larger item than the current max
+    this.maxes.push(item);
+  }
+  this.stack.push(item);
+}
+
+maxStack.prototype.pop = function(){
+  if(this.maxes.peek() === this.stack.peek()){
+    this.maxes.pop();
+  }
+  this.stack.pop();
+
+}
+
+
+
+
+
+
+// does SLL have a cycle?
+function cycle(firstNode){
+  let slowJumper = firstNode;
+  let fastJumper = firstNode;
+
+  //loop until fastJumper hits end of SLL
+  while(fastJumper && fastJumper.next){
+    slowJumper = firstNode.next;
+    fastJumper = firstNode.next.next;
+
+    if(slowJumper === fastJumper){
+      return true;
+    }
+  }
+  return false;
+
+}
+
+
+
+
+//
+// You have a function rand7() that generates a random integer from 1 to 7. Use it to write a function rand5() that generates a random integer from 1 to 5.
+//
+// rand7() returns each integer with equal probability. rand5() must also return each integer with equal probability.
+
+function rand7(){
+  return Math.floor(Math.random()*7) + 1
+}
+
+function rand5(){
+  //call rand7
+  //return if it result falls between 1 and 5
+  //if it doesn't (hits 6 or 7),
+  //if it hits 6, we need to make an equal probability between 1 and 3, if it hits 7, we need to make an equal probability between 3 and 5
+
+  let result;
+  result = rand7();
+  if(result <= 5){
+    return result
+  }else{
+    if(result > 5){
+      return Math.floor(Math.random()*5) + 1
+    }
+  }
+}
+
+
+//or just reroll
+
+function rand5(){
+  let result = rand7();
+  while(result > 5){
+    result = rand7();
+  }
+  return result;
+}
+
+
+
+//reverse a string in place, but you can turn the string into array first and do the reversal in place on the array
+//strings in js are immutable and can't be changed after it's been created
+// Strings are immutable in Javascript:
+//
+//   var testString = 'mutable?';
+//
+// testString[7] = '!';
+// string is still 'mutable?'
+// (but no error is raised!)
+//arrays are muteable in JS
+
+
+ function reverse(str){
+   let arr = str.split("");
+   let mid = Math.floor(arr.length/2);
+   if(arr.length % 2=== 0){
+     mid -= 1;
+   }
+   for (let i=0;i <= mid;i++){
+     let secondIndex = arr.length - 1 - i;
+     let temp = arr[i];
+     arr[i] = arr[secondIndex];
+     arr[secondIndex] = temp;
+   }
+   return arr.join("");
+ }
