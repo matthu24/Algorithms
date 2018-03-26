@@ -983,3 +983,42 @@ function rand5(){
    }
    return arr.join("");
  }
+
+
+
+
+
+
+ function LinkedListNode(value) {
+  this.value = value;
+  this.next = null;
+}
+
+var a = new LinkedListNode("Angel Food");
+var b = new LinkedListNode("Bundt");
+var c = new LinkedListNode("Cheese");
+var d = new LinkedListNode("Devil's Food");
+var e = new LinkedListNode("Eccles");
+
+a.next = b;
+b.next = c;
+c.next = d;
+d.next = e;
+
+
+function kthToLastNode(k,head){
+//find length of list
+let current = head;
+let length = 1;
+while(current.next){
+  current = current.next;
+  length += 1;
+}
+
+let kFromStart = length - k + 1;
+current = head;
+for(let i = 1; i < kFromStart; i++){
+  current = current.next;
+}
+return current
+}
