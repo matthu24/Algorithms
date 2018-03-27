@@ -1022,3 +1022,127 @@ for(let i = 1; i < kFromStart; i++){
 }
 return current
 }
+
+
+
+//this is not necessarily faster than the length solution
+function kthToLastNode(k,head){
+   //have two pointers spaced out k wide
+   //once the second pointer has reached the end, return the first pointer
+
+   let pointer1 = head;
+   let pointer2 = head;
+   for(let i = 1;i < k;i++){
+     pointer2 = pointer2.next;
+   }
+   while(pointer2.next){
+     pointer1 = pointer1.next;
+     pointer2 = pointer2.next;
+   }
+
+   return pointer1
+
+}
+
+
+
+
+//reverse words
+
+var message = [ 'c', 'a', 'k', 'e', ' ',
+              'p', 'o', 'u', 'n', 'd', ' ',
+              's', 't', 'e', 'a', 'l' ];
+
+// reverseWords(message);
+
+// console.log(message.join(''));
+// // prints: 'steal pound cake'
+
+function reverse(arr){
+//initialize results empty string
+//also initailze current word string
+//walk backward in letters array
+//
+let result = '';
+let current = '';
+let index = arr.length - 1;
+while(index >= 0){
+  current = arr[index] + current;
+
+  if(arr[index] === ' '){
+    //add current to result
+    //wipe out current
+    result += current;
+    current = '';
+  }
+
+
+  index-=1;
+}
+result += " " + current;
+
+return result.slice(1);
+}
+
+
+//we can do reverse in O(1) space
+// Reverse all the characters in the entire message, giving us the correct word order but with each word backwards.
+// Reverse the characters in each individual word.
+
+function reverseWhole(arr){
+
+  let currentStartIndex = 0;
+  reverse(arr,0,arr.length)
+  //now reverse characters of individual words
+  for(let i=0;i <= arr.length;i++){
+    if(arr[i] === " " || i === arr.length ){
+      reverse(arr,currentStartIndex,i);
+      currentStartIndex = i + 1;
+    }
+  }
+  return arr
+
+}
+
+
+function reverse(arr,start,end){
+
+   let arrMid = Math.floor((end-start)/2);
+ if((end-start)%2=== 0){
+   arrMid -= 1;
+ }
+ let i = 0;
+ while(i <= arrMid){
+   let firstIndex = start + i;
+    let secondIndex = end - 1 - i;
+   let temp = arr[firstIndex];
+   arr[firstIndex] = arr[secondIndex];
+   arr[secondIndex] = temp;
+   i+=1;
+ }
+
+
+ return arr
+}
+
+
+
+
+// Sometimes (when I nest them (my parentheticals) too much (like this (and this))) they get confusing.
+
+
+function parentheticals(str,position){
+  let count = 0;
+  while(position < str.length){
+    position += 1;
+    if(str[position] === "("){
+      count += 1;
+    }else if(str[position] === ")"){
+      if(count === 0){
+        return position
+      }else{
+        count -= 1;
+      }
+    }
+  }
+}
