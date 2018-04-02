@@ -1184,3 +1184,21 @@ function sort(arr,highest){
   return result;
 
 }
+
+
+
+
+// I have an array of n + 1 numbers. Every number in the range 1..n appears once except for one number that appears twice.
+
+
+function twice(array,n){
+  //n is always the max number in array
+  let expectedSum = 0;
+  let actualSum = 0;
+  for(let i = 1;i <= n; i++){
+     expectedSum += i;
+     actualSum += array[i-1];
+  }
+  actualSum += array[array.length-1];
+  return actualSum - expectedSum;
+}
