@@ -1146,3 +1146,41 @@ function parentheticals(str,position){
     }
   }
 }
+
+
+
+
+//SORT in under nlgn!!!
+// var unsortedScores = [37, 89, 41, 65, 91, 53];
+// const HIGHEST_POSSIBLE_SCORE = 100;
+
+// sortScores(unsortedScores, HIGHEST_POSSIBLE_SCORE);
+// // returns [91, 89, 65, 53, 41, 37]
+
+function sort(arr,highest){
+  //use a cheater hash map with an array
+  //indices of array represent the score values and the
+  //values represent the
+  let scoreCounts = [];
+  arr.forEach(el => {
+    if(scoreCounts[el]){
+      scoreCounts[el] += 1;
+    }else{
+      scoreCounts[el] = 1;
+    }
+  })
+
+  let result = [];
+  scoreCounts.forEach((el,idx) => {
+    //el is the number of times of occurrence
+    //idx is the value
+    while(el >= 1){
+      //push on to the beginning to get a reverse
+      result.unshift(idx)
+      el -= 1;
+
+    }
+  })
+  return result;
+
+}
