@@ -1202,3 +1202,37 @@ function twice(array,n){
   actualSum += array[array.length-1];
   return actualSum - expectedSum;
 }
+
+
+function cloud(str){
+  let result = {};
+  //loop through the string, keeping track of all previous letters until you hit a space
+  let currentWord = '';
+  //check for word in result
+  for(let i = 0; i < str.length; i++){
+    if(str[i] === ' ' || str[i] === '.' || str[i] === ',' || str[i] === ':'){
+      if(currentWord){
+        if(result[currentWord]){
+          result[currentWord] += 1;
+        }else{
+          result[currentWord] = 1;
+        }
+      }
+    currentWord = '';
+
+    }else{
+
+        currentWord += str[i].toLowerCase();
+
+
+    }
+  }
+  if(currentWord){
+     if(result[currentWord]){
+          result[currentWord] += 1;
+        }else{
+          result[currentWord] = 1;
+        }
+  }
+  return result
+}
