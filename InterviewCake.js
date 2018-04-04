@@ -1204,13 +1204,27 @@ function twice(array,n){
 }
 
 
+
+
+
+
+
+function isLetter(letter){
+  return 'abcdefghijklmnopqrstuvwxyz-'.indexOf(letter) >= 0;
+}
+
 function cloud(str){
   let result = {};
   //loop through the string, keeping track of all previous letters until you hit a space
   let currentWord = '';
+  let currentStartingIndex = 0;
+  // let currentEndingIndex = 1;
   //check for word in result
   for(let i = 0; i < str.length; i++){
-    if(str[i] === ' ' || str[i] === '.' || str[i] === ',' || str[i] === ':'){
+
+    if(!isLetter(str[i].toLowerCase())){
+    //we have reached the end of a word
+      currentWord = str.slice(currentStartingIndex,i).toLowerCase();
       if(currentWord){
         if(result[currentWord]){
           result[currentWord] += 1;
@@ -1218,21 +1232,22 @@ function cloud(str){
           result[currentWord] = 1;
         }
       }
-    currentWord = '';
-
-    }else{
-
-        currentWord += str[i].toLowerCase();
-
-
+      currentWord = '';
+      currentStartingIndex = i+1;
     }
+
+        // currentWord += str[i].toLowerCase();
+
+
   }
-  if(currentWord){
-     if(result[currentWord]){
+  if(isLetter(str[str.length-1])){
+   currentWord = str.slice(currentStartingIndex,str.length).toLowerCase();
+  }
+    if(result[currentWord]){
           result[currentWord] += 1;
-        }else{
+        }else if(currentWord){
           result[currentWord] = 1;
         }
-  }
+
   return result
 }
