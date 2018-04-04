@@ -1251,3 +1251,33 @@ function cloud(str){
 
   return result
 }
+
+
+
+
+
+
+//in place shuffle
+
+//return random number (represents indices) between floor and ceiling
+function getRandom(floor,ceiling){
+  return Math.floor(Math.random() * (ceiling-floor + 1)) + floor
+}
+
+//use splice(beginning index, how many to delete)
+function shuffle(arr){
+  let ceiling = arr.length - 1;
+  let floor;
+  //walk through array, for each index, pick a random value to the right of the specified index, swap these two values
+  //as you walk through the array, the range of random indices to pick from should be getting smaller and smaller
+  for(let i=0;i < arr.length;i++){
+    floor = i;
+    let randomIndex = getRandom(floor,ceiling);
+
+    //swap random index with floor
+    let temp = arr[floor];
+    arr[floor] = arr[randomIndex];
+    arr[randomIndex] = temp;
+  }
+  return arr;
+}
