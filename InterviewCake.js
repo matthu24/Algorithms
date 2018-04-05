@@ -1281,3 +1281,28 @@ function shuffle(arr){
   }
   return arr;
 }
+
+
+
+
+
+
+function perm(str){
+  if(str.length === 1){
+   return [str];
+  }
+  let newPerms = [];
+  let prev = perm(str.slice(0,str.length-1));
+  //take each string in prev, and insert last letter into each position of the string
+  //if prev = ['ab','ba'] ==>
+  //and new is 'c'
+  //['cab','acb','abc','cba','bca','bac']
+  prev.forEach(prevPerm => {
+    //parse prevPerm and stick the last letter in
+    for(let i=0;i <= prevPerm.length;i++){
+      newPerms.push(prevPerm.slice(0,i) + str[str.length-1] + prevPerm.slice(i,str.length));
+    }
+
+  })
+  return newPerms
+}
