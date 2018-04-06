@@ -1366,11 +1366,11 @@ function edit(str1,str2){
 
 //1 11 21 1211 111221
 function look(n){
-  let result = [[1],[11]];
+  let result = [[1]];
   if(n === 0){
     return result;
   }
-  for(let i=2;i <= n;i++){
+  for(let i=1;i <= n;i++){
     let prev = String(result[result.length-1]);
     let newArray = '';
     //loop through prev
