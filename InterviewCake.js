@@ -1306,3 +1306,89 @@ function perm(str){
   })
   return newPerms
 }
+
+
+
+
+function merge(arr1,arr2){
+  //compare the first index of both arrays
+  let merged = []
+  //keep looping only if both arrays are still alive
+  while(arr1.length > 0 && arr2.length > 0){
+    if(arr1[0] > arr2[0]){
+      merged.push(arr2.shift())
+    }else{
+      merged.push(arr1.shift())
+    }
+  }
+  return merged.concat(arr1).concat(arr2);
+}
+
+
+//strings are one edit away
+function edit(str1,str2){
+  //1. cat, csat
+  //2. cat, cas
+  //determine the length of each word
+  //if they differ:
+  //loop through the longer word, if i hit a discrepancy, delete the letter in the word, and compare with the other string
+  let length1 = str1.length;
+  let length2 = str2.length;
+  if(length1 !== length2){
+  let longerWord = length1 > length2 ? str1 : str2;
+  let shorterWord = longerWord === str1 ? str2 : str1;
+  for(let i = 0;i < longerWord.length;i++){
+    if(longerWord[i] !== shorterWord[i]){
+      longerWord = longerWord.slice(0,i) + longerWord.slice(i + 1,longerWord.length);
+      break;
+    }
+  }
+  return longerWord === shorterWord;
+  }else{
+    //words are the same length
+      let discrepancy = 0;
+      for(let i = 0;i < str1.length;i++){
+        if(str1[i] !== str2[i]){
+          discrepancy+=1;
+        }
+      }
+
+      return discrepancy <= 1;
+
+  }
+
+}
+
+
+
+
+//look and say
+
+//1 11 21 1211 111221
+function look(n){
+  let result = [[1],[11]];
+  if(n === 0){
+    return result;
+  }
+  for(let i=2;i <= n;i++){
+    let prev = String(result[result.length-1]);
+    let newArray = '';
+    //loop through prev
+
+    let currentCount = 1;
+    for(let j=1;j <= prev.length;j++){
+
+      if(prev[j] !== prev[j-1]){
+        // add to newArray, set currentCount back to zero
+        newArray += String(currentCount);
+        newArray += String(prev[j-1]);
+        currentCount= 1;
+      }else{
+        //update currentCount
+        currentCount += 1;
+      }
+    }
+    result.push([parseInt(newArray)])
+  }
+  return result;
+}
