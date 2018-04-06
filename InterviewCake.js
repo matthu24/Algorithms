@@ -1428,3 +1428,30 @@ function zigzag(str,n){
 
   return stringResult
 }
+
+
+
+//any permutation is a palindrome?
+
+//create hash map of all letters in string
+//walk through map, if more than one letter has an odd number of frequencies, return false, otherwise return true
+
+function permPal(str){
+  let frequencies = {};
+  for(let i=0;i < str.length;i++){
+    if(frequencies[str[i]]){
+      frequencies[str[i]] += 1;
+    }else{
+      frequencies[str[i]] = 1;
+    }
+  }
+
+  let numOddFrequencies = 0;
+  for(let letter in frequencies){
+    if(frequencies[letter] % 2 === 1){
+      numOddFrequencies += 1;
+    }
+  }
+  return numOddFrequencies <= 1
+  // return frequencies
+}
