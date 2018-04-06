@@ -1392,3 +1392,39 @@ function look(n){
   }
   return result;
 }
+
+
+
+
+function zigzag(str,n){
+  //allocate a structure for each row- nested array
+  let result = [];
+  let stringResult = '';
+  for(let i=0;i < n;i++){
+    result.push([])
+  }
+
+  let row = 0;
+  let ascending = true;
+  for(let i=0;i < str.length;i++){
+    result[row].push(str[i])
+    //need to either increment or decrement row
+    if(row === n-1 && ascending === true){
+      row-=1;
+      ascending = false;
+    }else if(row === 0 && ascending === false){
+      row += 1;
+      ascending = true;
+    }else if(ascending === true){
+      row+=1;
+    }else if(ascending === false){
+      row -=1;
+    }
+  }
+
+  result.forEach(sub => {
+    stringResult += sub.join('')
+  })
+
+  return stringResult
+}
