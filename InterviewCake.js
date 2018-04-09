@@ -1455,3 +1455,38 @@ function permPal(str){
   return numOddFrequencies <= 1
   // return frequencies
 }
+
+
+
+
+
+// random 7 when we already have random 5 method
+
+function rand5(){
+  return Math.floor(Math.random()* 5) + 1
+}
+
+//if we roll 1 to 5 inclusive twice, we will get 25 total outcomes, which could be represented by a five by five grid.  We could fill each grid with a number between 1 and 7
+function rand7(){
+  let grid = [];
+  let counter = 1;
+  for(let row=0; row < 5; row++){
+    grid.push([]);
+    for(let col = 0;col < 5; col++){
+      grid[row].push(counter);
+      if(counter === 7){
+        counter = 1;
+      }else{
+        counter+=1;
+      }
+    }
+  }
+  while(true){
+  let roll1 = rand5()-1;
+  let roll2 = rand5()-1;
+  let result = grid[roll1][roll2];
+  if(roll1 < 4 || roll2 === 0 ){
+    return result;
+  }
+  }
+}
