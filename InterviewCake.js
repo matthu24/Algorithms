@@ -1490,3 +1490,166 @@ function rand7(){
   }
   }
 }
+
+
+
+
+//dfs to check if binary tree is valid using DFS: note that this is incorrect because we are just
+//checking to see if a node is valid against it's immediate parent, which isn't enough
+//store three things for each node: 1. the node, 2. whether it is a right or left branch of its immediate parent,
+//3. the value of its immediate parent
+
+//first, insert the root
+//then, while the storage array is not empty, pop the last node off the storage array, check if its a valid node, and add right and left to the stack
+
+function BinaryTreeNode(value) {
+  this.value = value;
+  this.left  = null;
+  this.right = null;
+}
+
+BinaryTreeNode.prototype.insertLeft = function(value) {
+    this.left = new BinaryTreeNode(value);
+    return this.left;
+};
+
+BinaryTreeNode.prototype.insertRight = function(value) {
+    this.right = new BinaryTreeNode(value);
+    return this.right;
+};
+
+function isValid(node){
+  //dfs uses a stack: first in last out
+  //stacks uses push, pop
+  //storage is a stack that is storing nodes
+  let storage = [];
+  //node pair stores node, whether it is a left or right child of its immediate parent, and the parent node value
+  let nodeTrio = [node,null,null]
+  storage.push(nodeTrio);
+  while(storage.length > 0){
+    //push right, push  left, then pop one off (it will be the left one)
+    let currentNodeTrio = storage.pop();
+
+    //the check
+    if(currentNodeTrio[1] === 'right'){
+      console.log('right')
+      if(currentNodeTrio[0].value < currentNodeTrio[2]){
+        return false;
+      }
+    }else if(currentNodeTrio[1] === 'left'){
+            console.log([currentNodeTrio[0].value,currentNodeTrio[2]])
+
+      if(currentNodeTrio[0].value > currentNodeTrio[2]){
+        return false;
+      }
+    }
+
+    //adding the right and left
+    if(currentNodeTrio[0].right){
+      storage.push([currentNodeTrio[0].right,'right', currentNodeTrio[0].value])
+    }
+
+    if(currentNodeTrio[0].left){
+      storage.push([currentNodeTrio[0].left,'left', currentNodeTrio[0].value])
+    }
+  }
+  return true;
+}
+
+
+//the above is storing a lot of extra information in memory because we'd have to store the whole chain above the child
+//we can do better, we can just track upper and lower bound that a node needs to be
+
+
+
+//use dfs, but keep track of a lower and upper bound
+//starting from root, if we go left, the root is our new upperbound, and we keep the same lowerbound(which is -Infinity)
+//if we go right, we keep the same upper bound,
+//and change the new lower bound
+function dfs(node){
+  //dfs uses a stack: first in last out
+  //stacks uses push, pop
+  //storage is storing nodes
+  let storage = [];
+  //node pair stores node, upper, and lower bound
+  let nodeTrio = {node:node,upperBound:Infinity,lowerBound:-Infinity}
+  storage.push(nodeTrio);
+  while(storage.length > 0){
+
+    let currentNodeTrio = storage.pop();
+    // console.log(currentNodeTrio)
+    if(currentNodeTrio['node'].value > currentNodeTrio['upperBound'] || currentNodeTrio['node'].value < currentNodeTrio['lowerBound'] ){
+     return false;
+    }
+
+    //add left and right
+    if(currentNodeTrio['node'].right){
+      storage.push({node:currentNodeTrio['node'].right,upperBound:currentNodeTrio['upperBound'] ,lowerBound:currentNodeTrio['node'].value})
+    }
+
+    if(currentNodeTrio['node'].left){
+      storage.push({node:currentNodeTrio['node'].left,upperBound: currentNodeTrio['node'].value, lowerBound: currentNodeTrio['lowerBound'] })
+    }
+  }
+  return true;
+}
+
+
+
+//use a stack for parsing!
+
+//'(hi my) name is (matthew hu(and)))'
+function parens(str){
+  //brute force: loop through string to track left parens,
+
+  let removeList = [];
+  //if we run into a ")" and the parensStack is empty, put that index in the removeList right away
+  let parensStack = [];
+  //data structure for holding indices of parens
+  //stack?
+  //every time encounter a ), push in index into parensStack, and pop off two
+  for(let i = 0; i < str.length; i++){
+    if(str[i] === "("){
+      parensStack.push(i);
+    }else if(str[i] === ")" && !parensStack.length){
+      removeList.push(i);
+    }else if(str[i] === ")"){
+      //pop off two
+      parensStack.push(i)
+      parensStack.pop();
+      parensStack.pop();
+    }
+  }
+  removeList.push(...parensStack);
+  return remove(str,removeList);
+}
+
+//remove indices from str as designated by the integers in the array
+//return new string
+function remove(str,arr){
+  //create new string
+  let result = '';
+  for(let i=0;i < str.length;i++){
+    if(arr[0] !== i){
+       result += str[i]
+    }else{
+      arr.shift()
+    }
+
+  }
+  return result;
+}
+
+
+function remove2(str,arr){
+  let shift = 0;
+  //loop through arr and slice str at each index
+
+
+  arr.forEach(index=> {
+    index = index - shift;
+    str = str.slice(0,index) + str.slice(index+1,str.length)
+    shift+=1;
+  })
+  return str
+}
