@@ -1653,3 +1653,165 @@ function remove2(str,arr){
   })
   return str
 }
+
+
+
+
+//k closest distances from the origin
+//nlgn time
+
+function euc2(points,k){
+  //create a new array and store distance with each point
+  //sort new array by distance (merge sort)
+  //take the first k
+  //get rid of distances
+
+  let result = points;
+  result.forEach((point,idx) => {
+    let distance1 = distance(point);
+    result[idx] = [point,distance1];
+
+  })
+  //sort result
+  result = mergeSort(result);
+  result = result.slice(0,k);
+  return result.map(result=>{
+    return result[0]
+  });
+}
+
+function distance(points){
+  return (points[0]**2 + points[1]**2)**0.5;
+}
+
+function mergeSort(arr){
+  if(arr.length === 1){
+    return arr;
+  }
+
+  let left = arr.slice(0, Math.floor(arr.length/2));
+  let right = arr.slice(Math.floor(arr.length/2),arr.length);
+
+  return merge(mergeSort(left),mergeSort(right));
+}
+
+function merge(arr1,arr2){
+  let result = [];
+  while(arr1.length && arr2.length){
+    //compare first entries of each array
+    if(arr1[0][1] > arr2[0][1]){
+      result.push(arr2.shift());
+    }else{
+      result.push(arr1.shift())
+    }
+  }
+  return result.concat(arr1).concat(arr2);
+}
+
+
+
+// Question 1: Given an input of an array of string, verify if, turned 180 degrees, it is the "same".
+// For instance:
+// [1, 6, 0, 9, 1] => return true
+// [1, 7, 1] => return false
+
+function twist(arr){
+  //1, 8, 0, 6/9
+  let start = -1;
+  let end = arr.length ;
+  while(start < end){
+      start++;
+    end--;
+    if(arr[start] === 1 && arr[end] === 1){
+      continue;
+    }else if(arr[start] === 0 && arr[end] === 0){
+      continue;
+    }else if(arr[start] === 8 && arr[end] === 8){
+      continue;
+    }else if(arr[start] === 6 && arr[end] === 9 || arr[start] === 9 && arr[end] === 6){
+      continue;
+    }else{
+      return false;
+    }
+
+
+
+  }
+  return true;
+
+}
+
+
+
+
+//nth fibonnaci, but with less space than the naive recursive solution
+
+
+function naivefib(n){
+  //1,1,2,3,5,8
+  if(n === 1){
+    return 1;
+  }else if(n === 2){
+    return 1;
+  }
+  return fib(n-2) + fib(n-1)
+}
+
+function fib(n){
+  if(n === 1){
+    return 1;
+  }else if(n === 2){
+    return 1;
+  }
+
+  let last = 1;
+  let secondLast = 1;
+  let current;
+  for(let i=3;i <=n;i++){
+    current = last + secondLast;
+    last = secondLast;
+    secondLast = current;
+  }
+  return current;
+}
+
+
+
+
+
+// Implement a queue ↴ with 2 stacks. ↴ Your queue should have an enqueue and a dequeue method and it should be "first in first out" (FIFO).
+//complexity is O(n) for n number of calls
+//the reversal when the stack 2 is empty is expensive
+//but every other dequeue is O(1)
+
+function queueClass(){
+  this.stack1 = [];
+  this.stack2 = [];
+}
+
+//
+queueClass.prototype.enqueue = function(value){
+  this.stack1.push(value)
+}
+
+
+//if stack2 is empty, reverse the stacks
+//but otherwise, we can just pop off stack2 
+queueClass.prototype.dequeue = function(){
+  //we need to get the first element out of stack1
+  //but we can only use pop
+
+  //check if stack2 has elements, if it does, just pop off(skip the reverse elements)
+  if(this.stack2.length === 0){
+    while(this.stack1.length){
+      this.stack2.push(this.stack1.pop());
+    }
+  }
+
+  return this.stack2.pop();
+
+}
+
+let a = new queueClass();
+a.enqueue(3)
+a.enqueue(4)
