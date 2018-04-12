@@ -1796,7 +1796,7 @@ queueClass.prototype.enqueue = function(value){
 
 
 //if stack2 is empty, reverse the stacks
-//but otherwise, we can just pop off stack2 
+//but otherwise, we can just pop off stack2
 queueClass.prototype.dequeue = function(){
   //we need to get the first element out of stack1
   //but we can only use pop
@@ -1815,3 +1815,218 @@ queueClass.prototype.dequeue = function(){
 let a = new queueClass();
 a.enqueue(3)
 a.enqueue(4)
+
+
+
+
+function riffle(arr1,arr2, shuffled){
+  //return boolean of whether or not it is a single riffle
+  let shuffledIndex = 0;
+  if(arr1.length + arr2.length !== shuffled.length){
+    return false
+  }
+  while(arr1.length>0 && arr2.length >0){
+    if(arr1[0] === shuffled[shuffledIndex]){
+      arr1.shift();
+    }else if(arr2[0] === shuffled[shuffledIndex]){
+      arr2.shift();
+    }else{
+      return false;
+    }
+    shuffledIndex += 1;
+  }
+  if(arr1.length > 0){
+
+    if( arr1.join() === shuffled.slice(shuffled.length-arr1.length).join()){
+      return true
+    }else{
+      return false
+    }
+  }else{
+
+    if( arr2.join() === shuffled.slice(shuffled.length-arr2.length).join()){
+      return true
+    }else{
+      return false
+    }
+  }
+
+
+}
+
+
+
+function three(arr,target){
+  let frequency = {};
+  arr.forEach(el => {
+    if(frequency[el]){
+      frequency[el] += 1;
+    }else{
+      frequency[el] = 1;
+    }
+  })
+
+  //nested for loop, go through each pair, see if desired number is in frequency, if it is, and it's not the same number as the other two, return true
+  for(let i = 0;i< arr.length;i++){
+    for(let j = i + 1;j< arr.length;j++){
+      let twoSum = arr[i] + arr[j];
+      let desired = target - twoSum;
+      //check for desired in frequency
+      if(frequency[desired] && arr[i] !== desired && arr[j] !== desired){
+        return true;
+      }
+      // }else if(frequency[desired] && frequency[desired] > 1){
+      //   return [arr[i],arr[j],desired];
+      // }
+    }
+  }
+  return false;
+}
+
+
+
+
+function spiral(n){
+  //hit the top right: go down
+    //top right: up and right are both undefined
+  //hit the bottom right: go left
+  //hit the top left: go right
+  //hit the botom left: go up
+  let result = [];
+  for(let i=0;i < n;i++){
+    result.push([])
+    for(let j=0;j < n;j++){
+      result[i].push(0)
+    }
+  }
+  // return result;
+  let row = 0;
+  let col = 0;
+  // let right = true;
+  // let up = false;
+  // let down = false;
+  // let left = false;
+
+  let nsquared = n ** 2;
+  for(let i=1;i <= nsquared;i++){
+    // let spot = result[row][col]
+    let left = result[row][col-1];
+    let right = result[row][col+1];
+    let top = result[row-1] ? result[row-1][col] : undefined;
+    let bottom = result[row + 1] ? result[row+1][col] : undefined;
+    result[row][col] = i;
+    //set next row col
+    if(right === 0 && top !== 0){
+      col += 1;
+    }else if(bottom === 0 && right !== 0){
+      row += 1;
+    }else if(left === 0 && bottom !== 0){
+      col -= 1;
+    }else if(top === 0 && left !== 0){
+      row -= 1;
+    }
+  }
+
+  return result;
+
+}
+
+
+
+
+// Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.
+
+// Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+function remove(arr){
+  // let counter = 0;
+  let originalLength = arr.length;
+  for(let i=1;i < arr.length;i++){
+    // if(counter === originalLength-1){
+    //   break;
+    // }
+    if(arr[i] === arr[i-1]){
+      //delete arr[i], and decrement i
+      arr.splice(i,1);
+      i--;
+    }
+
+    // counter++;
+  }
+
+
+  return arr.length;
+}
+
+
+
+
+
+
+
+var letterCombinations = function(digits) {
+    if (digits.length === 0) return [];
+
+	var map = {
+		"2": ["a", "b", "c"],
+		"3": ["d", "e", "f"],
+		"4": ["g", "h", "i"],
+		"5": ["j", "k", "l"],
+		"6": ["m", "n", "o"],
+		"7": ["p", "q", "r", "s"],
+		"8": ["t", "u", "v"],
+		"9": ["w", "x", "y", "z"]
+	};
+    var combinations = [''];
+
+    // for as many times as there are digits (eg. '3721' => 4 times)
+    for (var i = 0; i < digits.length; i++) {
+        //digit is each digit in the input str
+        var digit = digits[i];
+        //letters is the letters array corresponding to each digit in the map
+        var letters = map[digit];
+        //tempArray keeps building the combinations
+        var tempArray = [];
+        // skip if invalid digit
+        if (letters === undefined) continue;
+
+
+
+        // for as many times as there are letters (eg. 'abc' => 3 times)
+        for (var j = 0; j < letters.length; j++) {
+            var letterToAdd = letters[j];
+
+
+
+            // for as many times as there are existing combinations
+            // LOOP THROUGH COMBINATIONS- THE FIRST TIME, THERE IS ONLY ONE COMBINATION AND IT'S AN EMPTY STRING!
+            for (var k = 0; k < combinations.length; k++) {
+                var combination = combinations[k];
+                tempArray.push(combination + letterToAdd);
+            }
+
+
+
+        }
+        combinations = tempArray;
+        //WE GET A NEW TEMPARRAY FOR EVERY DIGIT IN THE INPUT STRING
+        //ALL THE ELEMENTS IN COMBINATIONS ARE UPDATED FOR EVERY DIGIT IN THE INPUT STRING
+    }
+    return combinations;
+};
+
+
+//track three things: combinations (['']), combination iterates through current combinations, and tempArray, which has combination + letter to add pushed in each iteration, then starts over in the very outer loop
+
+//combinations is built up gradually, its elements are modified every time we go through the outer loop(as many times as there are input digits)
+
+console.log(letterCombinations('234'));
+
+
+//SUMMARY:
+//INITIALIZE COMBINATIONS ['']
+//OUTER FOR LOOP THROUGH INPUT STRING DIGITS, INITALIZE A NEW BUILD-HELPER TEMP ARRAY IN THIS OUTER LOOP
+//MIDDLE FOR LOOP THROUGH THE LETTERS FOR EACH DIGIT
+//FOR EACH ELEMENT IN COMBINATIONS, MAKE A NEW COMBINATION BY ADDING THE NEW LETTER, PUSH THIS NEW COMBINATION INTO TEMP ARRAY
+//AFTER EACH ROUND OF A DIGIT, REASSIGN COMBINATIONS TO EQUAL THE FINISHED TEMP ARRAY
+//TEMP ARRAY THEN STARTS OVER FOR THE NEXT DIGIT 
