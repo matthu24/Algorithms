@@ -2053,3 +2053,25 @@ function roman(str){
   }
   return result;
 }
+
+
+//longest common prefix
+
+function prefix(arr){
+  let longestPrefix = arr[0];
+
+  arr.forEach(el => {
+    //compare each element with the current longest prefix
+    let newPrefix = '';
+    //iterate through the element and check with the current longest prefix
+    for(let i = 0;i< el.length;i++){
+      if(el[i] === longestPrefix[i]){
+        newPrefix += el[i];
+      }else{
+        break;
+      }
+    }
+    longestPrefix = newPrefix;
+  })
+  return longestPrefix;
+}
