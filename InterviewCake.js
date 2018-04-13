@@ -2029,4 +2029,27 @@ console.log(letterCombinations('234'));
 //MIDDLE FOR LOOP THROUGH THE LETTERS FOR EACH DIGIT
 //FOR EACH ELEMENT IN COMBINATIONS, MAKE A NEW COMBINATION BY ADDING THE NEW LETTER, PUSH THIS NEW COMBINATION INTO TEMP ARRAY
 //AFTER EACH ROUND OF A DIGIT, REASSIGN COMBINATIONS TO EQUAL THE FINISHED TEMP ARRAY
-//TEMP ARRAY THEN STARTS OVER FOR THE NEXT DIGIT 
+//TEMP ARRAY THEN STARTS OVER FOR THE NEXT DIGIT
+
+
+
+
+function roman(str){
+  let result = 0;
+  let map = {
+    "I":1,
+    "V":5,
+    "X":10
+  }
+    //loop through str
+  for(let i =0;i< str.length;i++){
+    if(str[i+1]!== undefined && str[i] === 'I' && str[i+1] !== "I"){
+      result--;
+    }else{
+      result += map[str[i]]
+    }
+
+
+  }
+  return result;
+}
