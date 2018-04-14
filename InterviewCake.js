@@ -2075,3 +2075,95 @@ function prefix(arr){
   })
   return longestPrefix;
 }
+
+
+
+
+//bracket validator
+
+
+// "{ []()}" should return true
+// "{[(])}" should return false
+// "{[}" should return false
+
+
+function validator(str){
+  let curlyStack = [];
+  let parensStack = [];
+  let bracketStack = [];
+  str = str.split(' ').join('')
+  for(let i=0;i < str.length;i++){
+    if(str[i] === "{"){
+      //push index
+      curlyStack.push(i)
+        console.log(curlyStack)
+
+    }else if(str[i] === "["){
+      bracketStack.push(i)
+              console.log(bracketStack)
+
+    }else if(str[i] === "("){
+      parensStack.push(i)
+              console.log(parensStack)
+
+    }else if(str[i] === "}"){
+      if(curlyStack.length ===0){
+        return false;
+      }
+      let opener = curlyStack.pop();
+      if((i - opener) % 2 === 0){
+        return false;
+      }
+    }else if(str[i] === "]"){
+       if(bracketStack.length ===0){
+        return false;
+      }
+      let opener = bracketStack.pop();
+      if((i - opener) % 2 === 0){
+        return false;
+      }
+    }else if(str[i] === ")"){
+       if(parensStack.length ===0){
+        return false;
+      }
+      let opener = parensStack.pop();
+      if((i - opener) % 2 === 0){
+        return false;
+      }
+    }
+  }
+  if(curlyStack.length === 0 && parensStack.length === 0 && bracketStack.length === 0){
+    return true;
+  }
+  return false;
+}
+
+
+
+function hangman(guesses,word){
+  let results = [];
+  for(let i = 0;i < word.length;i++){
+    results.push('_')
+  }
+
+  let frequency = {};
+  for(let i=0;i < word.length;i++){
+    if(frequency[word[i]]){
+      frequency[word[i]].push(i);
+    }else{
+      frequency[word[i]] = [i];
+    }
+  }
+
+  //iterate through guess string
+  for(let i=0;i < guesses.length;i++){
+    //frequency[guesses[i]] is array of indices
+    if(frequency[guesses[i]]){
+      let indices = frequency[guesses[i]];
+      for(let j=0; j< indices.length;j++){
+        results[indices[j]] = guesses[i];
+      }
+    }
+  }
+  return results.join('')
+}
