@@ -2246,3 +2246,107 @@ function real(arr){
 
   return result
 }
+
+
+
+
+//write a function to find odd numbers in a array of integers
+
+      function findOddNumbers(arr){
+        let result = [];
+        arr.forEach(el => {
+          if(el % 2 === 1){
+            result.push(el)
+          }
+        })
+        return result;
+      }
+
+      //write a function to return first 10 fibonacci numbers
+      //1 1 2 3 5...
+      function fibonacci10(){
+        let result = [1,1];
+        for(let i=2; i <10; i++){
+          let newFib = result[i-1] + result[i-2];
+          result.push(newFib)
+        }
+        return result;
+      }
+
+
+      //Write a function to searh text in a longer text, without using any built-in functions
+
+
+      //search('cat','cats')  ==> true
+
+      function search(shorter, longer){
+        let shorterIndex = 0;
+        for(let i=0;i < longer.length;i++){
+          if(longer[i] === shorter[shorterIndex]){
+            shorterIndex++;
+            if (shorterIndex === shorter.length){
+              return true;
+            }
+
+          }else{
+            shorterIndex = 0;
+          }
+        }
+        return false;
+
+
+
+//             let counter = 0;
+//             while(counter < shorterLength){
+//               if(shorter[counter] !== longer[counter + i]){
+//                 break;
+//               }
+//               counter++;
+
+//             }
+//             return true;
+
+//           }
+//         }
+//         return false;
+      }
+
+
+
+
+      //permutations
+// Input: [1,2,3]
+// Output:
+// [
+//   [1,2,3],
+//   [1,3,2],
+//   [2,1,3],
+//   [2,3,1],
+//   [3,1,2],
+//   [3,2,1]
+// ]
+
+
+function perms(arr){
+  if(arr.length <= 1){
+    return [arr];
+  }
+  let newPerms = [];
+  let prev = perms(arr.slice(0,arr.length-1));
+
+  //loop through prevs, insert last element in arr into each slot
+  for(let i=0;i< prev.length;i++){
+    let perm = prev[i];
+    //perm is the subarray containing the permutation
+    //example: [1]
+    //from this for loop, we want to add [1,2] and [2,1] to newPerms
+    for(let j = 0;j <= perm.length;j++){
+      let newPerm = perm.slice(0,j).concat([arr[arr.length-1]]).concat(perm.slice(j));
+      newPerms.push(newPerm);
+
+    }
+  }
+  //replace the last batch of perms completely
+  return newPerms;
+
+}
