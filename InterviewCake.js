@@ -2167,3 +2167,48 @@ function hangman(guesses,word){
   }
   return results.join('')
 }
+
+
+
+function LinkedListNode(value){
+  this.value = value;
+  this.next = null;
+}
+
+let a = new LinkedListNode(3);
+let g = new LinkedListNode(3);
+let b = new LinkedListNode(4);
+let f = new LinkedListNode(5);
+let c = new LinkedListNode(5);
+let d = new LinkedListNode(5);
+let e = new LinkedListNode(6);
+
+a.next = g;
+g.next = b;
+b.next = f;
+f.next = c;
+c.next = d;
+d.next = e;
+
+
+function removeDuplicates(node){
+  let current = node.next;
+  let previous = node;
+  while(current.next){
+    console.log([previous, current,current.next])
+    // check if current.next is equal to current
+    if(current.value === previous.value){
+      //remove the current node
+      previous.next = current.next;
+      current = current.next;
+    }else{
+          //update previous and current for the next round
+          //we don't need to update if we just removed a node since we want to check previous with its new next
+      previous = current;
+      current = current.next;
+    }
+
+
+  }
+
+}
