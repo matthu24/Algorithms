@@ -2212,3 +2212,37 @@ function removeDuplicates(node){
   }
 
 }
+
+
+
+
+
+let a = [1,3,2,4] // ==> results in [1,3,2,5]
+let b = [9,9,9] // ==> results in [1,0,0,0]
+
+function blah(arr){
+  //turn array into an integer
+
+  // return String(parseInt(arr.join('')) + 1).split("")
+  let result = 0;
+  let i = 0;
+  let reversed = arr.reverse();
+
+  while(i < reversed.length){
+    result += reversed[i] * 10**(i)
+    i++;
+  }
+  return result;
+}
+
+function real(arr){
+  let addOne = blah(arr) + 1;
+  //turn addOne which is an integer into an array
+  let stringInt = String(addOne);
+    let result = [];
+  for(let i=0;i< stringInt.length;i++){
+    result.push(stringInt[i])
+  }
+
+  return result
+}
