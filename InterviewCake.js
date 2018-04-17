@@ -2491,3 +2491,21 @@ function spiral2(arr){
   return result
 
 }
+
+
+
+// Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+
+function last(str){
+  //without using split
+  //iterate through string
+  //start over length counter everytime you run into a blank space, start it again after the next
+  let lengthCounter = 0;
+  for(let i=0;i< str.length;i++){
+    lengthCounter += 1;
+    if(str[i] === ' '){
+      lengthCounter = 0;
+    }
+  }
+  return lengthCounter;
+}
