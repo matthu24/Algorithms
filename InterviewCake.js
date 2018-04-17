@@ -2350,3 +2350,144 @@ function perms(arr){
   return newPerms;
 
 }
+
+
+// Given an array nums and a value val, remove all instances of that value in-place and return the new length.
+
+
+function remove(arr,value){
+  //loop through the array
+  for(let i=0;i < arr.length;i++){
+    if(arr[i] === value){
+      arr = arr.slice(0,i).concat(arr.slice(i+1))
+      i--;
+    }
+  }
+
+
+  return arr.length;
+}
+
+
+
+// Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+
+function palNum(n){
+  //turn n into an array
+  let array = [];
+  while(n> 0){
+    array.push(n % 10);
+    n = Math.floor(n/10);
+  }
+  // you can't compare arrays
+  return array.join('') === array.reverse().join('')
+}
+
+
+function LCS(arr){
+  let largest = 0;
+  let currentLargest = 0;
+  for(let i=0;i < arr.length;i++){
+    if(currentLargest + arr[i] > 0){
+      currentLargest += arr[i]
+      if(currentLargest > largest){
+        largest = currentLargest;
+      }
+    }else{
+      currentLargest = 0;
+    }
+  }
+  return largest
+}
+
+
+
+
+// Input:
+// [
+// [ 1, 2, 3,4 ],
+// [ 5,6,7,8 ],
+// [ 9,10, 11, 12 ],
+// [13,14,15,16]
+// ]
+// Output: [1,2,3,6,9,8,7,4,5]
+
+function spiral(arr){
+  let result = [];
+  let row = 0;
+  let col = 0;
+
+
+  for(let i=0;i < arr.length**2;i++){
+    result.push(arr[row][col]);
+    arr[row][col] = undefined;
+
+    //whole above is undefined or the above square is undefined
+    //if the whole above is undefined, it will exit the conditional before the
+    //second conditional after the || is evaluated(this is good, it would have thrown an error)
+    if( (arr[row-1] === undefined || arr[row-1][col] === undefined) && arr[row][col+1] ){
+      //go right
+      col += 1;
+    } else if(arr[row][col+1] === undefined && (arr[row+1] && arr[row+1][col]) ){
+      //go down
+      row += 1;
+    } else if((arr[row+1] === undefined || arr[row+1][col] === undefined) && arr[row][col-1] ){
+      //go left
+      col -= 1;
+    } else if(arr[row][col-1] === undefined  && (arr[row-1] && arr[row-1][col]) ){
+      //go up
+      row -=1;
+    }
+  }
+
+
+  return result;
+}
+
+function spiral2(arr){
+  let result = [];
+  let row = 0;
+  let col = 0;
+  let right = true;
+  let left = false;
+  let up = false;
+  let down = false;
+  for(let i=0;i < arr.length**2;i++){
+    result.push(arr[row][col])
+    arr[row][col] = undefined;
+    if(right && (arr[row][col+1] === undefined)){
+      //go down
+      row += 1;
+      down = true;
+      right = false;
+    }else if(down && (arr[row+1] === undefined || arr[row+1][col] === undefined)){
+      //go left
+      col -= 1;
+      left = true;
+      down = false;
+    }else if(left && (arr[row][col-1] === undefined)){
+      //go up
+      row -= 1;
+      left = false;
+      up = true;
+    }else if(up && (arr[row-1]=== undefined || arr[row-1][col]===undefined) ){
+      up = false;
+      //go right
+      right = true;
+      col += 1;
+    }else{
+      if(right){
+        col += 1;
+      }else if(left){
+        col-=1;
+      }else if(up){
+        row-=1;
+      }else{
+        row+=1;
+      }
+    }
+
+  }
+  return result
+
+}
