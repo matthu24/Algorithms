@@ -20,3 +20,28 @@ function binarySearch (arr,target){
     return binarySearch(arr.slice(mid,arr.length),target) + mid
   }
 }
+
+//find kth most frequent number in array
+//make frequency hash table
+//convert to array
+//sort by frequency
+//grab the kth element
+//return the number
+
+function kth(arr,k){
+  let frequency = {};
+  arr.forEach((el,idx) => {
+    if(frequency[el]){
+      frequency[el] += 1;
+    }else{
+      frequency[el] = 1;
+    }
+  })
+
+  let frequencyArray = Object.entries(frequency);
+  frequencyArray = frequencyArray.sort(function(a,b){
+    return a[1] < b[1]
+  })
+  //if grabbing the second most frequent number: grab index 1
+  return parseInt(frequencyArray[k-1][0])
+}

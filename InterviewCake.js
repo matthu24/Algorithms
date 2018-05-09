@@ -166,33 +166,39 @@ function highestProductOf3(arrayOfInts) {
 
 
 
-//this is potentially O(n^2)
+//Merge ranges
+// 1. sort meetings by start time
+// 2. initialize a merged meetings results array and fill it with the first sorted meeting
+// 3. iterate through sorted meetings, if there is an overlap with the last merged meeting, replace the last merged meeting with a new merged meeting
+// 4. if no overlap, simply push
+// 5. return merged meetings
+
+mergeRanges(  [
+ {startTime: 0,  endTime: 1},
+   {startTime: 3,  endTime: 5},
+   {startTime: 4,  endTime: 8},
+   {startTime: 10, endTime: 12},
+   {startTime: 9,  endTime: 10},
+   {startTime: 1,  endTime: 4},
+   ]
+)
+
+
 function mergeRanges(meetings) {
-    var result = [];
-    // merge meeting ranges
-    let added = false;
-    meetings.forEach(curr => {
-       for(let i = 0; i < result.length; i++){
-          if(curr.startTime <= result[i].endTime && curr.endTime >= result[i].startTime){
-              result[i].endTime = Math.max(curr.endTime, result[i].endTime)
-              result[i].startTime = Math.min(curr.startTime, result[i].startTime)
-
-              added = true;
-          }
-        //   }else if(curr.endTime >= result[i].startTime){
-        //       result[i].startTime = Math.min(curr.startTime, result[i].startTime)
-        //       added = true;
-        //   }
-       }
-       if(added === false){
-           result.push(curr)
-       }
-       added = false;
-
-
-    })
-
-    return result;
+  // merge meeting ranges
+  meetings = meetings.sort(function(a, b) {
+    return a.startTime > b.startTime ? 1 : -1;
+  });
+  let merged = [meetings[0]];
+  meetings.forEach(curr => {
+    let lastMergedMeeting = merged[merged.length-1];
+    if(lastMergedMeeting.endTime >= curr.startTime){
+      lastMergedMeeting.endTime = curr.endTime
+    }else{
+      merged.push(curr);
+    }
+  })
+  return merged;
 }
 
 const meetings = [
@@ -208,7 +214,7 @@ console.log(mergeRanges(meetings));
 
 
 
-
+// Cake solution
 //do it again but by sorting the meetings and trying to merge with the previous one
 function mergeRanges(meetings) {
 
@@ -238,7 +244,6 @@ function mergeRanges(meetings) {
           mergedMeetings.push(currentMeeting);
       }
   }
-
   return mergedMeetings;
 }
 
@@ -2508,4 +2513,196 @@ function last(str){
     }
   }
   return lengthCounter;
+}
+
+
+
+
+// Input: 1->2->3->4->5->NULL, k = 2
+// Output: 4->5->1->2->3->NULL
+// Given a linked list, rotate the list to the right by k places, where k is non-negative.
+function node(val){
+  this.value = val;
+  this.next = null;
+}
+
+let a = new node(1)
+let b = new node(2)
+let c = new node(3)
+let d = new node(4)
+let e = new node(5)
+
+a.next = b;
+b.next = c;
+c.next = d;
+d.next = e;
+
+
+function rotate(head, k){
+  //find the kth + 1 to last node
+  //make its next null
+  //connect the tail to the head--> tail.next = head
+
+  //to find kth + 1 last node, have two pointers
+  //save the head node
+  let firstNode = head;
+  let pointer = head;
+  let secondPointer = head;
+
+  //find where the  secondPointer should start
+  for(let i=0;i < k;i++){
+    secondPointer = secondPointer.next;
+  }
+
+
+  while(secondPointer.next){
+    secondPointer = secondPointer.next;
+    pointer = pointer.next;
+  }
+  //disconnect the next for pointer
+  pointer.next = null;
+
+  //secondPointer is now at the end, connect it to the firstNode
+  secondPointer.next = firstNode;
+}
+
+
+
+// You are climbing a stair case. It takes n steps to reach to the top.
+
+// Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+//this is just fibs with O(1) space
+function stairs(n){
+  //can climb 1 or 2 steps
+//   Input: 3
+// Output: 3
+// Explanation: There are three ways to climb to the top.
+// 1. 1 step + 1 step + 1 step
+// 2. 1 step + 2 steps
+// 3. 2 steps + 1 step
+
+  // let result;
+  // if(n === 2){
+  //   result = [[1,1],[2]]
+  // }else if(n ===3){
+  //   [[1,1,1],[1,2],[2,1]]
+  // }else if( n === 4){
+  //   [[1,1,1,1],[1,2,1],[1,1,2],[2,1,1],[2,2]]
+  // }else if (n===5){
+  //   [[1,1,1,1,1],[1,2,1,1],[1,1,2,1],[1,1,1,2],[2,1,1,1],[2,2,1],[2,1,2],[1,1,2]]
+  // }else if(n === 6){
+    //[[1,1,1,1,1,1],[2,1,1,1,1]x 5, [2,2,1,1] x 6,[2,2,2]
+  }//
+  let previous = 2;
+  let secondPrevious = 1;
+  let counter = 3;
+  if(n === 1){
+    return 1;
+  }else if(n === 2){
+    return 2;
+  }
+  while(counter < n){
+    let temp = previous;
+    previous = previous + secondPrevious;
+    secondPrevious = temp;
+    counter++;
+  }
+  return previous + secondPrevious
+}
+
+
+
+
+//given an array, return a flattened version of the array
+
+function flatten(arr){
+  //ex: [[1,2],[3,4]] ==> [1,2,3,4]
+  //recursion
+  //loop through array
+  //if run into element and it's an array, recurse
+  let result = [];
+  for(let i=0; i< arr.length;i++){
+    //check if arr[i] is an Array
+    if(arr[i] instanceof Array){
+      let flattened = flatten(arr[i]);
+      result = result.concat(flattened)
+      // result = [...result, ...flattened];
+      // result.push(...flattened)
+    }else{
+      result.push(arr[i])
+    }
+  }
+
+  return result;
+
+}
+
+
+//iterative flatten:
+//in the for loop, we flatten the array one level at a time
+//source is our helper array that we walk through in the for loop
+//we update result one level at a time by walking through source
+//then at the end of every walk through we assign source to result, then reassign result to empty
+
+//source starts out as the original unflattened array while results is an empty array
+//we walk through source in the for loop, and fill result with a one-level flattening of source
+//result is now one level flattened and source is the same
+//we are checking if source is still nested tho, so we need to assign source to result (one level flattened) and result back to empty, so we can fill it again with another walk through of source
+//if no instances of arrays are found in source, then we exit the while loop
+function flatten(arr){
+  //iteratively
+  //can't modify arr
+  let arraysPresent = true;
+  //go through source to build result
+  let source = arr;
+  let result=[];
+  while(arraysPresent){
+    arraysPresent = false;
+    result= []
+
+    //iterate through arr
+    //flatten one level at a time each time we go through entire for loop
+    for(let i=0;i < source.length; i++){
+      if(source[i] instanceof Array){
+        arraysPresent = true;
+        result = result.concat(source[i])
+      }else{
+        result.push(source[i])
+      }
+    }
+    source = result;
+  }
+  return result
+}
+
+
+// Given an array of integers, find the subarray with the largest sum
+
+//loop through integers, track largest sum,  current sum, and currentStartingIndex
+//if current sum dips below 0, start the current sums over
+
+function lCS(arr){
+  let largestSum = arr[0];
+  let largestStartingIndex = 0;
+  let largestEndingIndex = 1;
+  let currentStartingIndex = 0;
+  let currentSum = arr[0];
+  for(let i=1;i < arr.length;i++){
+    currentSum += arr[i];
+    if(currentSum > largestSum){
+      largestSum = currentSum;
+      //update indices
+      largestStartingIndex = currentStartingIndex;
+      largestEndingIndex = i + 1;
+    }
+    if(currentSum < 0){
+      currentSum = 0;
+      currentStartingIndex = i + 1;
+    }
+  }
+
+
+  return arr.slice(largestStartingIndex,largestEndingIndex);
+  // return largestSum
 }
